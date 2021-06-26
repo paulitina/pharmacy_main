@@ -2,19 +2,21 @@ package entities;
 
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "order_products")
+@IdClass(OrderProductPK.class)
 public class OrderProduct {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "product_id")
-    Long productId;
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    Product productId;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "order_id")
-    Long orderId;
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    Order orderId;
 
     @Column(name = "quantity")
     Long quantity;
@@ -22,25 +24,25 @@ public class OrderProduct {
     public OrderProduct() {
     }
 
-    public OrderProduct(Long productId, Long orderId, Long quantity) {
+    public OrderProduct(Product productId, Order orderId, Long quantity) {
         this.productId = productId;
         this.orderId = orderId;
         this.quantity = quantity;
     }
 
-    public Long getProductId() {
+    public Product getProductId() {
         return productId;
     }
 
-    public void setProductId(Long productId) {
+    public void setProductId(Product productId) {
         this.productId = productId;
     }
 
-    public Long getOrderId() {
+    public Order getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(Long orderId) {
+    public void setOrderId(Order orderId) {
         this.orderId = orderId;
     }
 

@@ -1,0 +1,1 @@
+This project was created for the implementation of the pharmacy website

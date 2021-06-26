@@ -16,7 +16,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void placeOrder(String address) {
         String status = "placed";
-//        orderDao.save(new Order(??, ??, status, address));
+        orderDao.save(new Order(??, ??, status, address));
     }
 
     @Override

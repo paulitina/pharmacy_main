@@ -7,12 +7,15 @@ import javax.persistence.*;
 @Table(name = "orders")
 public class Order {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(name="my_seq",sequenceName="my_sequence", allocationSize=1)
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="my_seq")
     @Column(name = "order_id")
     Long orderId;
 
-    @Column(name = "user_id")
-    Long userId;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    User userId;
 
     @Column(name = "status")
     String status;
@@ -23,7 +26,7 @@ public class Order {
     public Order() {
     }
 
-    public Order(Long orderId, Long userId, String status, String address) {
+    public Order(Long orderId, User userId, String status, String address) {
         this.orderId = orderId;
         this.userId = userId;
         this.status = status;
@@ -38,11 +41,11 @@ public class Order {
         this.orderId = orderId;
     }
 
-    public Long getUserId() {
+    public User getUserId() {
         return userId;
     }
 
-    public void setUserId(Long userId) {
+    public void setUserId(User userId) {
         this.userId = userId;
     }
 
