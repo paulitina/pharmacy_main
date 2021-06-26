@@ -1,0 +1,39 @@
+Table users {
+  user_id int [pk, increment]
+  user_name varchar [not null, unique]
+  email varchar
+  password_hash varchar
+  password_salt varchar
+  type varchar
+}
+
+Ref: users.user_id < orders.user_id
+
+Table products {
+  product_id int [pk, increment]
+  name varchar
+  indications varchar
+  manufacturer_info varchar
+  side_effects varchar
+  quantity int [default: 0]
+  price int
+  prescribed boolean
+  image byte_arr
+}
+
+Ref: products.product_id < order_products.product_id
+
+Table order_products {
+  order_id int [pk]
+  product_id int [pk]
+  quantity int [default: 1]
+}
+
+Table orders {
+  order_id int [pk, increment]
+  user_id int
+  status varchar
+  address varchar
+}
+
+Ref: orders.order_id < order_products.order_id
