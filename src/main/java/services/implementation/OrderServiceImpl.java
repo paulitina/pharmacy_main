@@ -16,11 +16,12 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void placeOrder(String address) {
         String status = "placed";
-        orderDao.save(new Order(??, ??, status, address));
+//        orderDao.save(new Order(??, ??, status, address));
     }
 
-    @Override
-    public List<Order> findOrdersByStatus(String status) {
-        return orderDao.findAllById(??);
-    }
+//    @Override
+//    public List<Order> findOrdersByStatus(String status) {
+////        return orderDao.findAllById(??);
+//        return List<Order> list;
+//    }
 }

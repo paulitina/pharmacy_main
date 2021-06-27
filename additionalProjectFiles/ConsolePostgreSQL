@@ -1,3 +1,5 @@
+create sequence if not exists my_sequence;
+
 create table if not exists users
 (
     user_id           bigint      not null constraint users_pkey primary key,
