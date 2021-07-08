@@ -1,6 +1,7 @@
 package code.services.api;
 
 import code.dto.OrderDto;
+import code.dto.OrderProductDto;
 import code.entities.Order;
 
 import java.util.List;
@@ -15,8 +16,8 @@ public interface OrderService {
 
     //Получить ордерДТО() и список товаров()
     //Создать пустую корзину, если пустая есть, то получить данные и поменять все из ДТО в корзине в базе
-    Order updateOrderProductList(OrderDto orderDto);
+    void updateOrderProductList(OrderProductDto orderProductDto);
 
     //Получить заказ со статусом корзина
-    OrderDto getOrderInCart();
+    OrderDto getUserOrderInCart();
 }

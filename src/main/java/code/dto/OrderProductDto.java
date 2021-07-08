@@ -13,9 +13,9 @@ import lombok.*;
 @AllArgsConstructor
 @Data
 public class OrderProductDto {
-    private Product productId;
+    private Long productId;
 
-    private Order orderId;
+    private Long orderId;
 
     private int quantity;
 }

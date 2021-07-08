@@ -8,7 +8,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderProductPK implements Serializable {
-    Long productId;
+    Long orderId;
 
-    Long userId;
+    Long productId;
 }

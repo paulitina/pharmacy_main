@@ -4,6 +4,7 @@ import code.dto.OrderDto;
 import code.dto.OrderProductDto;
 import code.entities.Order;
 import code.entities.OrderProduct;
+import code.entities.OrderProductPK;
 import code.enums.OrderStatus;
 import code.repositories.OrderDao;
 import code.repositories.OrderProductDao;
@@ -24,6 +25,7 @@ public class OrderServiceImpl implements OrderService {
 
     UserServiceImpl userService;
 
+    //Получаем из базы заказ в виде ДТО
     public OrderDto createOrderDto(Order order) {
         return new OrderDto(order.getOrderId(),
                 order.getStatus(),
@@ -31,6 +33,8 @@ public class OrderServiceImpl implements OrderService {
                 createOrderProductDtoList(order.getOrderProductList()));
     }
 
+
+    //Создаем из бд список товаров ДТО
     public List<OrderProductDto> createOrderProductDtoList(List<OrderProduct> orderProducts) {
         if (orderProducts == null) {
             return new ArrayList<>();
@@ -43,7 +47,7 @@ public class OrderServiceImpl implements OrderService {
         return orderProductDtoList;
     }
 
-
+    //создаем пустую корзину
     public Order createEmptyCart(Long userId) {
         Order order = new Order();
         order.setUserId(userId);
@@ -52,6 +56,7 @@ public class OrderServiceImpl implements OrderService {
         return orderDao.save(order);
     }
 
+    //Создаем новый элемент корзины
     public void createCartProduct(Long productId) {
         Long userId = userService.getIdOfAuthenticatedUser();
         Order orderInCart;
@@ -64,38 +69,44 @@ public class OrderServiceImpl implements OrderService {
         int quantity = 1;
         OrderProduct orderProduct = new OrderProduct(productId, orderInCart.getOrderId(), quantity);
         orderProductDao.save(orderProduct);
-
     }
 
+    //Получаем из базы заказ в корзине, получаем новые данные о товарах, сохраняем в базе
     @Override
-    public Order updateOrderProductList(OrderDto orderDto) {
+    public void updateOrderProductList(OrderProductDto orderProductDto) {
         Order order = getOrderInCart();
-
-//        product.setName(productDto.getName());
-//        product.setIndications(productDto.getIndications());
-//        product.setSideEffects(productDto.getSideEffects());
-//        product.setManufacturerInfo(productDto.getManufacturerInfo());
-//        product.setQuantity(productDto.getQuantity());
-//        product.setPrice(product.getPrice());
-//        product.setPrescribed(productDto.getPrescribed());
-//        product.setImage(productDto.getImage());
-        return order;
+        Long orderId = order.getOrderId();
+        int quantity = orderProductDto.getQuantity();
+        Long productId = orderProductDto.getProductId();
+        OrderProduct orderProduct = orderProductDao.findById(new OrderProductPK(orderId, productId)).get();
+        orderProduct.setQuantity(quantity);
+        orderProductDao.save(orderProduct);
     }
 
-    /////////
-    @Override
-    public OrderDto getOrderInCart() {
+    //Получаем по айди юзера заказ со статусом корзина/создаем новый, если отсутствует
+    public Order getOrderInCart() {
         Order order;
         Long userId = userService.getIdOfAuthenticatedUser();
         List<Order> orders = orderDao.findOrdersByUserIdAndStatus(userId, OrderStatus.CART.getStatusType());
         if (orders.size() == 1) {
             order = orders.get(0);
         } else {
-            order = new Order();
+            order = createEmptyCart(userId);
+//            order = new Order();
+//            order.setUserId(userId);
+//            System.out.println("Корзина пустая");
         }
+        return order;
+    }
+
+    //возвращаем данные корзины из БД в виде ДТО
+    @Override
+    public OrderDto getUserOrderInCart(){
+        Order order = getOrderInCart();
         return createOrderDto(order);
     }
 
+    //Получаем из базы заказ в корзине, меняем статус на "размещен", устанавливаем адрес и пересохраняем
     @Override
     public void placeOrder(String address) {
         Order order = getOrderInCart();
@@ -104,6 +115,7 @@ public class OrderServiceImpl implements OrderService {
         orderDao.save(order);
     }
 
+    //Получаем в виде ДТО все заказы(кроме карт)
     @Override
     public List<OrderDto> findOrdersOfUser() {
         Long userId = userService.getIdOfAuthenticatedUser();

@@ -1,6 +1,7 @@
 package code.controllers;
 
 import code.dto.OrderDto;
+import code.dto.OrderProductDto;
 import code.entities.Order;
 import code.services.implementation.OrderServiceImpl;
 import lombok.AllArgsConstructor;
@@ -16,7 +17,7 @@ public class OrderController {
     OrderServiceImpl orderService;
 
     @GetMapping("/cart")
-    private ResponseEntity<OrderDto> getOrderInCart(){
+    private ResponseEntity<Order> getOrderInCart(){
         return ResponseEntity.ok(orderService.getOrderInCart());
     }
 
@@ -26,8 +27,8 @@ public class OrderController {
     }
 
     @PutMapping("/cart")
-    private ResponseEntity<Order> updateOrder(OrderDto orderDto){
-        return ResponseEntity.ok(orderService.updateOrderProductList(orderDto));
+    private void updateOrder(OrderProductDto orderProductDto){
+        orderService.updateOrderProductList(orderProductDto);
     }
 
     @PostMapping
