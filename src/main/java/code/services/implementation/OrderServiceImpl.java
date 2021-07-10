@@ -71,6 +71,13 @@ public class OrderServiceImpl implements OrderService {
         orderProductDao.save(orderProduct);
     }
 
+    // Удаляем товар из заказа
+    public void deleteProductInProductList(Long productId){
+        Order orderInCart = getOrderInCart();
+        Long orderId = orderInCart.getOrderId();
+        orderProductDao.deleteById(new OrderProductPK(orderId, productId));
+    }
+
     //Получаем из базы заказ в корзине, получаем новые данные о товарах, сохраняем в базе
     @Override
     public void updateOrderProductList(OrderProductDto orderProductDto) {
@@ -92,9 +99,6 @@ public class OrderServiceImpl implements OrderService {
             order = orders.get(0);
         } else {
             order = createEmptyCart(userId);
-//            order = new Order();
-//            order.setUserId(userId);
-//            System.out.println("Корзина пустая");
         }
         return order;
     }

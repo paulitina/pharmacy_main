@@ -2,7 +2,6 @@ package code.controllers;
 
 import code.dto.OrderDto;
 import code.dto.OrderProductDto;
-import code.entities.Order;
 import code.services.implementation.OrderServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,8 +16,8 @@ public class OrderController {
     OrderServiceImpl orderService;
 
     @GetMapping("/cart")
-    private ResponseEntity<Order> getOrderInCart() {
-        return ResponseEntity.ok(orderService.getOrderInCart());
+    private ResponseEntity<OrderDto> getUserOrderInCart() {
+        return ResponseEntity.ok(orderService.getUserOrderInCart());
     }
 
     @GetMapping("/all")
@@ -29,6 +28,16 @@ public class OrderController {
     @PutMapping("/cart")
     private void updateOrder(OrderProductDto orderProductDto) {
         orderService.updateOrderProductList(orderProductDto);
+    }
+
+    @PutMapping("/cart")
+    private void deleteProductInProductList(Long productId){
+        orderService.deleteProductInProductList(productId);
+    }
+
+    @PutMapping("/cart")
+    private void createCartProduct(Long productId){
+        orderService.createCartProduct(productId);
     }
 
     @PostMapping
