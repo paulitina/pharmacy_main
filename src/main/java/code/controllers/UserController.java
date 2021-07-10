@@ -3,9 +3,11 @@ package code.controllers;
 import code.dto.UserDto;
 import code.entities.User;
 import code.services.api.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/pharmacy/user")
@@ -19,7 +21,7 @@ public class UserController {
     }
 
     @PutMapping("/{username}")
-    private ResponseEntity<User> updateUserInfo(UserDto userDto){
+    private ResponseEntity<User> updateUserInfo(UserDto userDto) {
         return ResponseEntity.ok(userService.updateUserInfo(userDto));
     }
 }

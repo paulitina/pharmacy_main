@@ -10,7 +10,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.security.Principal;
 import java.security.SecureRandom;
 
 @Service
@@ -23,10 +22,10 @@ public class UserServiceImpl implements UserService {
     public UserDto createUserDto(User user) {
         UserDto userDto = new UserDto();
         userDto.setUserName(user.getUserName());
-        return  userDto;
+        return userDto;
     }
 
-    public Long getIdOfAuthenticatedUser(){
+    public Long getIdOfAuthenticatedUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String authenticatedUserName = authentication.getName();
         User authenticatedUser = userDao.findByName(authenticatedUserName);

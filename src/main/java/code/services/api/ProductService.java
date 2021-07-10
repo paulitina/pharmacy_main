@@ -7,7 +7,10 @@ import java.util.List;
 
 public interface ProductService {
     Product addProduct(ProductDto productDto);
+
     Product updateProduct(ProductDto productDto);
+
     List<ProductDto> getListOfProducts();
+
     ProductDto getProductInfo(Long productId);
 }

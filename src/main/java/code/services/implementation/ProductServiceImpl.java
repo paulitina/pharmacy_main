@@ -2,20 +2,21 @@ package code.services.implementation;
 
 import code.dto.ProductDto;
 import code.entities.Product;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 import code.repositories.ProductDao;
 import code.services.api.ProductService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class ProductServiceImpl implements ProductService{
+public class ProductServiceImpl implements ProductService {
     ProductDao productDao;
 
     //return product from db online
-    public ProductDto createProductDto(Product product){
+    public ProductDto createProductDto(Product product) {
         ProductDto productDto = new ProductDto();
         productDto.setProductId(product.getProductId());
         productDto.setName(product.getName());

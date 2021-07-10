@@ -17,22 +17,22 @@ public class OrderController {
     OrderServiceImpl orderService;
 
     @GetMapping("/cart")
-    private ResponseEntity<Order> getOrderInCart(){
+    private ResponseEntity<Order> getOrderInCart() {
         return ResponseEntity.ok(orderService.getOrderInCart());
     }
 
     @GetMapping("/all")
-    private ResponseEntity<List<OrderDto>> findOrdersOfUser(){
+    private ResponseEntity<List<OrderDto>> findOrdersOfUser() {
         return ResponseEntity.ok(orderService.findOrdersOfUser());
     }
 
     @PutMapping("/cart")
-    private void updateOrder(OrderProductDto orderProductDto){
+    private void updateOrder(OrderProductDto orderProductDto) {
         orderService.updateOrderProductList(orderProductDto);
     }
 
     @PostMapping
-    private void placeOrder(String address){
+    private void placeOrder(String address) {
         orderService.placeOrder(address);
     }
 }

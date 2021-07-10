@@ -63,7 +63,7 @@ public class OrderServiceImpl implements OrderService {
         List<Order> orders = orderDao.findOrdersByUserIdAndStatus(userId, OrderStatus.CART.getStatusType());
         if (orders.isEmpty()) {
             orderInCart = createEmptyCart(userId);
-        }else {
+        } else {
             orderInCart = orders.get(0);
         }
         int quantity = 1;
@@ -101,7 +101,7 @@ public class OrderServiceImpl implements OrderService {
 
     //возвращаем данные корзины из БД в виде ДТО
     @Override
-    public OrderDto getUserOrderInCart(){
+    public OrderDto getUserOrderInCart() {
         Order order = getOrderInCart();
         return createOrderDto(order);
     }

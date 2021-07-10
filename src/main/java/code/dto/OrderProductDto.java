@@ -1,15 +1,14 @@
 package code.dto;
 
-import code.entities.Order;
-import code.entities.Product;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.*;
-
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @NoArgsConstructor
-@RequiredArgsConstructor
 @AllArgsConstructor
 @Data
 public class OrderProductDto {
