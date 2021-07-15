@@ -1,5 +1,6 @@
 package code.services.implementation;
 
+import code.MyException;
 import code.dto.ProductDto;
 import code.entities.Product;
 import code.repositories.ProductDao;
@@ -13,7 +14,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
-    ProductDao productDao;
+    private final ProductDao productDao;
 
     //return product from db online
     public ProductDto createProductDto(Product product) {
@@ -32,14 +33,14 @@ public class ProductServiceImpl implements ProductService {
 
     //add created dto product to DB
     @Override
-    public Product addProduct(ProductDto productDto) {
+    public Product addProduct(ProductDto productDto) throws MyException {
         return productDao.save(new Product(null, productDto.getName(), productDto.getIndications(), productDto.getManufacturerInfo(),
                 productDto.getSideEffects(), productDto.getQuantity(), productDto.getPrice(), productDto.getPrescribed(),
                 productDto.getImage()));
     }
 
     @Override
-    public Product updateProduct(ProductDto productDto) {
+    public Product updateProduct(ProductDto productDto) throws MyException {
         Product product = productDao.findById(productDto.getProductId()).get();
         product.setName(productDto.getName());
         product.setIndications(productDto.getIndications());
@@ -61,7 +62,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductDto getProductInfo(Long productId) {
+    public ProductDto getProductInfo(Long productId) throws MyException {
         Product product = productDao.findById(productId).get();
         ProductDto productDto;
         return productDto = createProductDto(product);

@@ -10,7 +10,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderProductPK implements Serializable {
-    Long orderId;
+    private Long orderId;
 
-    Long productId;
+    private Long productId;
 }

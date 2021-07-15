@@ -1,47 +1,50 @@
 package code.controllers;
 
+import code.MyException;
 import code.dto.OrderDto;
 import code.dto.OrderProductDto;
+import code.entities.Order;
 import code.services.implementation.OrderServiceImpl;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RequestMapping("/pharmacy/order")
 public class OrderController {
-    OrderServiceImpl orderService;
+    private final OrderServiceImpl orderService;
 
     @GetMapping("/cart")
-    private ResponseEntity<OrderDto> getUserOrderInCart() {
+    private ResponseEntity<OrderDto> getUserOrderInCart() throws MyException {
         return ResponseEntity.ok(orderService.getUserOrderInCart());
     }
 
+
     @GetMapping("/all")
-    private ResponseEntity<List<OrderDto>> findOrdersOfUser() {
+    private ResponseEntity<List<OrderDto>> findOrdersOfUser() throws MyException {
         return ResponseEntity.ok(orderService.findOrdersOfUser());
     }
 
     @PutMapping("/cart")
-    private void updateOrder(OrderProductDto orderProductDto) {
-        orderService.updateOrderProductList(orderProductDto);
+    private ResponseEntity<Order> updateOrder(List<OrderProductDto> orderProductDtoList) throws MyException {
+        return ResponseEntity.ok(orderService.updateOrderProductList(orderProductDtoList));
     }
 
-    @PutMapping("/cart")
-    private void deleteProductInProductList(Long productId){
+    @PostMapping("/cart")
+    private void deleteProductInProductList(Long productId) throws MyException {
         orderService.deleteProductInProductList(productId);
     }
 
-    @PutMapping("/cart")
-    private void createCartProduct(Long productId){
+    @PostMapping("/cart")
+    private void createCartProduct(Long productId) throws MyException {
         orderService.createCartProduct(productId);
     }
 
     @PostMapping
-    private void placeOrder(String address) {
+    private void placeOrder(String address) throws MyException {
         orderService.placeOrder(address);
     }
 }

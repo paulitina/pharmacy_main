@@ -1,16 +1,17 @@
 package code.controllers;
 
+import code.MyException;
 import code.dto.ProductDto;
 import code.entities.Product;
 import code.services.implementation.ProductServiceImpl;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RequestMapping("/pharmacy/product")
 public class ProductController {
     private final ProductServiceImpl productServiceImpl;
@@ -21,17 +22,17 @@ public class ProductController {
     }
 
     @GetMapping("/{productId}")
-    private ResponseEntity<ProductDto> getProductInfo(Long productId) {
+    private ResponseEntity<ProductDto> getProductInfo(Long productId) throws MyException {
         return ResponseEntity.ok(productServiceImpl.getProductInfo(productId));
     }
 
     @PostMapping
-    private ResponseEntity<Product> addProduct(ProductDto productDto) {
+    private ResponseEntity<Product> addProduct(ProductDto productDto) throws MyException {
         return ResponseEntity.ok(productServiceImpl.addProduct(productDto));
     }
 
     @PutMapping
-    private ResponseEntity<Product> updateProduct(ProductDto productDto) {
+    private ResponseEntity<Product> updateProduct(ProductDto productDto) throws MyException {
         return ResponseEntity.ok(productServiceImpl.updateProduct(productDto));
     }
 }

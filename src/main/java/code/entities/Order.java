@@ -35,7 +35,7 @@ public class Order {
     @JoinColumn(name = "user_id")
     private User user;
 
-    OrderStatus orderStatus;
+    private OrderStatus orderStatus;
 
     public Order(Long orderId, Long userId, String status, String address, List<OrderProduct> orderProductList) {
         this.orderId = orderId;
