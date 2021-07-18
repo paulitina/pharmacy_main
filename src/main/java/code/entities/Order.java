@@ -1,8 +1,9 @@
 package code.entities;
 
-import code.enums.OrderStatus;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.List;
@@ -10,15 +11,16 @@ import java.util.List;
 @Entity
 @Table(name = "orders")
 @Data
+@EqualsAndHashCode(exclude = {"user", "orderProductList"})
+@ToString(exclude = {"user", "orderProductList"})
 @NoArgsConstructor
 public class Order {
     @Id
-    @SequenceGenerator(name = "my_seq", sequenceName = "my_sequence", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "my_seq")
+    @SequenceGenerator(name = "order_seq", sequenceName = "order_sequence", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "order_seq")
     @Column(name = "order_id")
     private Long orderId;
 
-    @Id
     @Column(name = "user_id")
     private Long userId;
 
@@ -29,18 +31,18 @@ public class Order {
     private String address;
 
     @OneToMany
-    List<OrderProduct> orderProductList;
+    @JoinColumn(name = "order_id", insertable = false, updatable = false)
+    private List<OrderProduct> orderProductList;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", insertable = false, updatable = false)
     private User user;
 
-    private OrderStatus orderStatus;
 
     public Order(Long orderId, Long userId, String status, String address, List<OrderProduct> orderProductList) {
         this.orderId = orderId;
         this.userId = userId;
-        this.status = orderStatus.getStatusType();
+        this.status = status;
         this.address = address;
         this.orderProductList = orderProductList;
     }

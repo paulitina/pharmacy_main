@@ -14,8 +14,8 @@ import javax.persistence.*;
 @AllArgsConstructor
 public class Product {
     @Id
-    @SequenceGenerator(name = "my_seq", sequenceName = "my_sequence", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "my_seq")
+    @SequenceGenerator(name = "product_seq", sequenceName = "product_sequence", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "product_seq")
     @Column(name = "product_id")
     private Long productId;
 
@@ -42,7 +42,5 @@ public class Product {
     private Boolean prescribed;
 
     @Column(name = "image")
-    private Byte image;
-//    ByteArray image;
-
+    private byte[] image;
 }

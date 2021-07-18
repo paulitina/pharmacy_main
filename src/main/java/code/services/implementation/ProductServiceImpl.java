@@ -34,7 +34,7 @@ public class ProductServiceImpl implements ProductService {
     //add created dto product to DB
     @Override
     public Product addProduct(ProductDto productDto) throws MyException {
-        return productDao.save(new Product(null, productDto.getName(), productDto.getIndications(), productDto.getManufacturerInfo(),
+        return productDao.save(new Product(productDto.getProductId(), productDto.getName(), productDto.getIndications(), productDto.getManufacturerInfo(),
                 productDto.getSideEffects(), productDto.getQuantity(), productDto.getPrice(), productDto.getPrescribed(),
                 productDto.getImage()));
     }
@@ -64,7 +64,6 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductDto getProductInfo(Long productId) throws MyException {
         Product product = productDao.findById(productId).get();
-        ProductDto productDto;
-        return productDto = createProductDto(product);
+        return createProductDto(product);
     }
 }

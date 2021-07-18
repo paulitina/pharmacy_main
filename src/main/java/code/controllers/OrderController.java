@@ -37,11 +37,11 @@ public class OrderController {
     private void deleteProductInProductList(Long productId) throws MyException {
         orderService.deleteProductInProductList(productId);
     }
-
-    @PostMapping("/cart")
-    private void createCartProduct(Long productId) throws MyException {
-        orderService.createCartProduct(productId);
-    }
+//
+//    @PostMapping("/cart")
+//    private void createCartProduct(Long productId) throws MyException {
+//        orderService.createCartProduct(productId);
+//    }
 
     @PostMapping
     private void placeOrder(String address) throws MyException {

@@ -12,9 +12,4 @@ public interface UserService {
 
     UserDto getAuthenticatedUserDto();
 
-    void configure(HttpSecurity http) throws Exception
-
-    void logUserIn(String userName, String password);
-
-    void logUserOut();
 }

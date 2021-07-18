@@ -6,15 +6,11 @@ import code.entities.User;
 import code.repositories.UserDao;
 import code.services.api.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.access.ExceptionTranslationFilter;
 import org.springframework.stereotype.Service;
-
 import java.security.SecureRandom;
-import java.util.logging.Filter;
+import java.util.logging.Logger;
 
 @Service
 @RequiredArgsConstructor
@@ -76,17 +72,18 @@ public class UserServiceImpl implements UserService {
         user.setUserName(userDto.getUserName());
         User userFromDBByName = userDao.findByName(userDto.getUserName());
         if (userFromDBByName != null) {
-            return null;
+            throw new MyException("This userName is already taken");
         }
+        user.setUserId(userDto.getUserId());
         user.setEmail(userDto.getEmail());
         User userFromDBByEmail = userDao.findByEmail(userDto.getEmail());
         if (userFromDBByEmail != null) {
-            return null;
+            throw new MyException("This email is already taken");
         }
         String password = userDto.getPassword();
         String passwordSalt = createPasswordSalt();
         String passwordHash = createPasswordHash(password, passwordSalt);
-        String type = "buyer";
+        String type = "user";
         user.setType(type);
         user.setPasswordHash(passwordHash);
         user.setPasswordSalt(passwordSalt);
@@ -106,39 +103,4 @@ public class UserServiceImpl implements UserService {
         user.setPasswordHash(passwordHash);
         return userDao.save(user);
     }
-
-    @Bean
-    public Filter ajaxTimeOutRedirectFilter() {
-        AjaxTimeOutRedirectFilter f = new AjaxTimeOutRedirectFilter();
-        return f;
-    }
-
-    @Override
-    public void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable();
-        http.authorizeRequests().antMatchers("/**").authenticated();
-        http.formLogin().loginPage("/login.jsp").loginProcessingUrl("/login")
-                .successHandler(new CustomAuthenticationSuccessHandler())
-                .usernameParameter("idUser").passwordParameter("idPassword").permitAll();
-        http.logout().logoutSuccessHandler(loggingLogoutSuccessHandler).permitAll();
-        http.headers();
-        http.addFilterAfter(ajaxTimeOutRedirectFilter(), ExceptionTranslationFilter.class);
-    }
-
-    @Override
-//    @Query("SELECT u FROM users WHERE ((user_name = ?)  AND (password_hash = ?))")
-    public void logUserIn(String userName, String password) {
-//        @Param("user_name") String passwordSalt = ;
-//        String passwordHash = password.toString() + passwordSalt;
-//        List<User> users = userDao.findAll();
-//        for (int i : users) {
-//            if users.get()
-//        }
-    }
-
-    @Override
-    public void logUserOut() {
-
-    }
-
 }

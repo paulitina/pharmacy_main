@@ -1,4 +1,6 @@
-create sequence if not exists my_sequence;
+CREATE SEQUENCE if not exists user_sequence START WITH 1 MINVALUE 1 INCREMENT BY 1;
+CREATE SEQUENCE if not exists order_sequence START WITH 1 MINVALUE 1 INCREMENT BY 1;
+CREATE SEQUENCE if not exists product_sequence START WITH 1 MINVALUE 1 INCREMENT BY 1;
 
 create table if not exists users
 (

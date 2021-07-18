@@ -48,37 +48,17 @@ public class OrderServiceImpl implements OrderService {
         return orderProductDtoList;
     }
 
-//    public Order createOrderInCartFromOrderDto(OrderDto orderDto){
-//        Long userId = userService.getIdOfAuthenticatedUser();
-//        Order order = new Order();
-//        order.setOrderId(orderDto.getOrderId());
-//        order.setUserId(userId);
-//        order.setOrderStatus(OrderStatus.CART);
-//
-//        order.setOrderProductList(orderDto.getProductDtoList());
-//        return orderDao.save(order);
-//    }
-//
-//    public List<OrderProduct> createProductListFromProductDto(List<OrderProductDto> orderProductDtoList){
-//        List<OrderProduct> orderProductList = new ArrayList<>();
-//        for (OrderProductDto i:orderProductDtoList){
-//            orderProductList = i.getOrderId();
-//        }
-//        orderProductList.
-//        return orderProductList;
-//    }
-
     //создаем пустую корзину
     public Order createEmptyCart(Long userId) {
         Order order = new Order();
         order.setUserId(userId);
-        order.setOrderStatus(OrderStatus.CART);
+        order.setStatus(OrderStatus.CART.getStatusType());
         order.setOrderProductList(new ArrayList<>());
         return orderDao.save(order);
     }
 
     //Создаем новый элемент корзины
-    public void createCartProduct(Long productId) throws MyException {
+    public void createCartProduct(Long productId) {
         Long userId = userService.getIdOfAuthenticatedUser();
         Order orderInCart;
         List<Order> orders = orderDao.findOrdersByUserIdAndStatus(userId, OrderStatus.CART.getStatusType());
@@ -93,7 +73,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     // Удаляем товар из заказа
-    public void deleteProductInProductList(Long productId) throws MyException {
+    public void deleteProductInProductList( Long productId) {
         Order orderInCart = getOrderInCart();
         Long orderId = orderInCart.getOrderId();
         orderProductDao.deleteById(new OrderProductPK(orderId, productId));
@@ -101,7 +81,7 @@ public class OrderServiceImpl implements OrderService {
 
     //Получаем из базы заказ в корзине, получаем новые данные о товарах, сохраняем в базе
     @Override
-    public Order updateOrderProductList(List<OrderProductDto> orderProductDtoList) throws MyException {
+    public Order updateOrderProductList(List<OrderProductDto> orderProductDtoList) {
         Order order = getOrderInCart();
         Long orderId = order.getOrderId();
         for (OrderProductDto i : orderProductDtoList) {
@@ -116,7 +96,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     //Получаем по айди юзера заказ со статусом корзина/создаем новый, если отсутствует
-    public Order getOrderInCart() throws MyException {
+    public Order getOrderInCart() {
         Order order;
         Long userId = userService.getIdOfAuthenticatedUser();
         List<Order> orders = orderDao.findOrdersByUserIdAndStatus(userId, OrderStatus.CART.getStatusType());
@@ -137,16 +117,17 @@ public class OrderServiceImpl implements OrderService {
 
     //Получаем из базы заказ в корзине, меняем статус на "размещен", устанавливаем адрес и пересохраняем
     @Override
-    public void placeOrder(String address) throws MyException {
+    public void placeOrder(String address){
         Order order = getOrderInCart();
         order.setStatus(OrderStatus.PLACED.getStatusType());
         order.setAddress(address);
         orderDao.save(order);
     }
 
+
     //Получаем в виде ДТО все заказы(кроме карт)
     @Override
-    public List<OrderDto> findOrdersOfUser() throws MyException {
+    public List<OrderDto> findOrdersOfUser() {
         Long userId = userService.getIdOfAuthenticatedUser();
         List<Order> orders = orderDao.findOrdersByUserIdAndNotStatus(userId, OrderStatus.CART.getStatusType());
         List<OrderDto> ordersOfUser = orders.stream()
