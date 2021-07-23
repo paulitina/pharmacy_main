@@ -11,6 +11,7 @@ import code.repositories.OrderDao;
 import code.repositories.OrderProductDao;
 import code.services.api.OrderService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class OrderServiceImpl implements OrderService {
     private final OrderDao orderDao;
 
@@ -73,10 +75,15 @@ public class OrderServiceImpl implements OrderService {
     }
 
     // Удаляем товар из заказа
-    public void deleteProductInProductList( Long productId) {
+//    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void deleteProductInProductList(Long productId) {
         Order orderInCart = getOrderInCart();
         Long orderId = orderInCart.getOrderId();
-        orderProductDao.deleteById(new OrderProductPK(orderId, productId));
+        OrderProduct orderProduct = orderProductDao.findById(new OrderProductPK(orderId, productId)).get();
+        log.info("{}", orderProduct);
+        List<OrderProduct> orderProductList = orderInCart.getOrderProductList();
+        orderProductList.remove(orderProduct);
+        orderProductDao.delete(orderProduct);
     }
 
     //Получаем из базы заказ в корзине, получаем новые данные о товарах, сохраняем в базе
@@ -117,7 +124,7 @@ public class OrderServiceImpl implements OrderService {
 
     //Получаем из базы заказ в корзине, меняем статус на "размещен", устанавливаем адрес и пересохраняем
     @Override
-    public void placeOrder(String address){
+    public void placeOrder(String address) {
         Order order = getOrderInCart();
         order.setStatus(OrderStatus.PLACED.getStatusType());
         order.setAddress(address);

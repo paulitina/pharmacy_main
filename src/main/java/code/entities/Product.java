@@ -3,7 +3,6 @@ package code.entities;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.jetbrains.annotations.NotNull;
 
 import javax.persistence.*;
 
@@ -19,7 +18,6 @@ public class Product {
     @Column(name = "product_id")
     private Long productId;
 
-    @NotNull
     @Column(name = "name")
     private String name;
 

@@ -21,6 +21,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -91,8 +93,7 @@ public class OrderServiceImplTest {
         Product product2 = productDao.findById(1L).get();
         Order order = orderDao.findById(1L).get();
         OrderProduct orderProduct2 = new OrderProduct(1L, 1L, 5, product2, order);
-        List<OrderProduct> expectedProductList = new ArrayList<>();
-        expectedProductList.add(orderProduct2);
+        List<OrderProduct> expectedProductList = Collections.singletonList(orderProduct2);
         assertEquals(expectedProductList, actualProductList);
     }
 }

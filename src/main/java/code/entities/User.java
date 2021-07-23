@@ -3,7 +3,6 @@ package code.entities;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.jetbrains.annotations.NotNull;
 
 import javax.persistence.*;
 
@@ -20,11 +19,9 @@ public class User {
     private Long userId;
 
     @Column(name = "user_name")
-    @NotNull
     private String userName;
 
     @Column(name = "email")
-    @NotNull
     private String email;
 
     @Column(name = "password_hash")

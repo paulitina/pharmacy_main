@@ -6,19 +6,27 @@ import code.entities.Product;
 import code.services.implementation.ProductServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/pharmacy/product")
+@RequestMapping("api/pharmacy/product")
 public class ProductController {
     private final ProductServiceImpl productServiceImpl;
 
+//    @GetMapping
+//    private ResponseEntity<List<ProductDto>> getListOfProducts() {
+//        return ResponseEntity.ok(productServiceImpl.getListOfProducts());
+//    }
+
+
     @GetMapping
-    private ResponseEntity<List<ProductDto>> getListOfProducts() {
-        return ResponseEntity.ok(productServiceImpl.getListOfProducts());
+    public String getListOfProductsView(Model model) {
+        model.addAttribute("listOfProducts", productServiceImpl.getListOfProducts());
+        return "view-listOfProducts";
     }
 
     @GetMapping("/{productId}")
@@ -26,9 +34,25 @@ public class ProductController {
         return ResponseEntity.ok(productServiceImpl.getProductInfo(productId));
     }
 
-    @PostMapping
-    private ResponseEntity<Product> addProduct(ProductDto productDto) throws MyException {
-        return ResponseEntity.ok(productServiceImpl.addProduct(productDto));
+    //    @PostMapping
+//    private ResponseEntity<Product> addProduct(ProductDto productDto) throws MyException {
+//        return ResponseEntity.ok(productServiceImpl.addProduct(productDto));
+//    }
+
+    @GetMapping("/addProduct")
+    public String addProductView(Model model) {
+        model.addAttribute("product", new Product());
+        return "add-product";
+    }
+
+    @PostMapping("/addProduct")
+    public RedirectView addListOfProducts(@ModelAttribute("product") ProductDto productDto,
+                                          RedirectAttributes redirectAttributes) throws MyException {
+        final RedirectView redirectView = new RedirectView("/pharmacy/product/addProduct", true);
+        Product savedProducts = productServiceImpl.addProduct(productDto);
+        redirectAttributes.addFlashAttribute("savedProduct", savedProducts);
+        redirectAttributes.addFlashAttribute("addProductSuccess", true);
+        return redirectView;
     }
 
     @PutMapping

@@ -13,11 +13,11 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/pharmacy/order")
+@RequestMapping("api/pharmacy/order")
 public class OrderController {
     private final OrderServiceImpl orderService;
 
-    @GetMapping("/cart")
+    @GetMapping("cart")
     private ResponseEntity<OrderDto> getUserOrderInCart() throws MyException {
         return ResponseEntity.ok(orderService.getUserOrderInCart());
     }

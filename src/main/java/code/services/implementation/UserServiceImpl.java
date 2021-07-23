@@ -6,16 +6,20 @@ import code.entities.User;
 import code.repositories.UserDao;
 import code.services.api.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
 import java.security.SecureRandom;
-import java.util.logging.Logger;
 
 @Service
 @RequiredArgsConstructor
+@ToString
 public class UserServiceImpl implements UserService {
-//    private static final Logger log = LoggerFactory.getLogger(UserService.class);
+
+    BCryptPasswordEncoder bCryptPasswordEncoder;
 
     private final UserDao userDao;
 
@@ -60,10 +64,10 @@ public class UserServiceImpl implements UserService {
 
     //Создаем хэш из пароля и соли
     public String createPasswordHash(String password, String passwordSalt) {
-        Integer passwordIntHash = password.hashCode();
-        String passwordHash = passwordSalt + passwordIntHash;
-        return passwordHash;
+        String passwordWithSalt = password + passwordSalt;
+        return bCryptPasswordEncoder.encode(passwordWithSalt);
     }
+
 
     //add user from dto user to DB
     @Override
@@ -74,7 +78,6 @@ public class UserServiceImpl implements UserService {
         if (userFromDBByName != null) {
             throw new MyException("This userName is already taken");
         }
-        user.setUserId(userDto.getUserId());
         user.setEmail(userDto.getEmail());
         User userFromDBByEmail = userDao.findByEmail(userDto.getEmail());
         if (userFromDBByEmail != null) {
