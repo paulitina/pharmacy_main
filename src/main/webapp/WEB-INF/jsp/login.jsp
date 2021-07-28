@@ -9,60 +9,10 @@
 <!DOCTYPE html>
 <html ng-app="myApp" ng-controller="myController">
 <head>
-<%--    <script src="https://ajax.googleapis.com/libs/angularjs/1.2.16/angular.min.js"></script>--%>
-<%--    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.6/angular.min.js"></script>--%>
-<%--    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>--%>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <%--    <script src="kendo.all.js"></script>--%>
-<%--    <script src="jquery.js"></script>--%>
-
+    <link rel="stylesheet" href="resources/styles/login.css">
     <title><s:message text="Log In Page"/></title>
-    <style>
-        #login-container {
-            position: fixed;
-            width: 400px;
-            top: 50%;
-            left: 50%;
-            -webkit-transform: translate(-50%, -50%);
-            transform: translate(-50%, -50%);
-        }
-
-        .tab-elm {
-            width: 100%;
-            margin-top: 5px;
-        }
-
-        .tab-elm span {
-            width: 55%;
-        }
-
-        .tab-elm button {
-            width: 100%;
-        }
-
-        .menu {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-            background-color: #9292d1;
-        }
-
-        .menu a {
-            text-decoration: none;
-            font-family: sans-serif;
-            color: #5757a0;
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: lavender;
-            border-bottom: 5px solid #5757a0;
-        }
-
-        .menu li {
-            display: inline;
-        }
-
-    </style>
 </head>
 <body ng-cloak>
 <script type="text/javascript">

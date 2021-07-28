@@ -24,7 +24,7 @@ public class OrderProduct {
     private Long productId;
 
     @Column(name = "quantity")
-    private int quantity;
+    private Integer quantity;
 
     @ManyToOne
     @JoinColumn(name = "product_id", insertable=false, updatable=false)

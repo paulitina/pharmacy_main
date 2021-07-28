@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
@@ -21,12 +22,17 @@ public class WebSecurityFormConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
-//        http.authorizeRequests().antMatchers("/login_internal", "/login", "/error").permitAll().anyRequest()
-//                .authenticated().and()
         http.authorizeRequests().antMatchers("/**").authenticated();
         http.formLogin().loginPage("/login_page").defaultSuccessUrl("/product").loginProcessingUrl("/login")
                 .usernameParameter("idUser").passwordParameter("idPassword").permitAll();
         http.headers();
+    }
+
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web
+                .ignoring()
+                .antMatchers("/resources/**");
     }
 
     @Autowired
@@ -35,12 +41,4 @@ public class WebSecurityFormConfig extends WebSecurityConfigurerAdapter {
         auth.authenticationProvider(databaseAuthenticationProvider);
     }
 
-//    @Override
-//    protected void configure(HttpSecurity http) throws Exception {
-//        http.authorizeRequests()
-//                .antMatchers("/admin").hasRole("ADMIN")
-//                .antMatchers("/user").hasAnyRole("USER", "ADMIN")
-//                .antMatchers("/hello").permitAll()
-//                .and().formLogin();
-//    }
 }

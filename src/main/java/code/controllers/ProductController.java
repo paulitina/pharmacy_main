@@ -11,23 +11,24 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("api/pharmacy/product")
 public class ProductController {
     private final ProductServiceImpl productServiceImpl;
 
-//    @GetMapping
-//    private ResponseEntity<List<ProductDto>> getListOfProducts() {
-//        return ResponseEntity.ok(productServiceImpl.getListOfProducts());
-//    }
-
-
     @GetMapping
-    public String getListOfProductsView(Model model) {
-        model.addAttribute("listOfProducts", productServiceImpl.getListOfProducts());
-        return "view-listOfProducts";
+    private ResponseEntity<List<ProductDto>> getListOfProducts() {
+        return ResponseEntity.ok(productServiceImpl.getListOfProducts());
     }
+
+//    @GetMapping
+//    public String getListOfProductsView(Model model) {
+//        model.addAttribute("listOfProducts", productServiceImpl.getListOfProducts());
+//        return "view-listOfProducts";
+//    }
 
     @GetMapping("/{productId}")
     private ResponseEntity<ProductDto> getProductInfo(Long productId) throws MyException {

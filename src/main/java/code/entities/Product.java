@@ -31,10 +31,10 @@ public class Product {
     private String sideEffects;
 
     @Column(name = "quantity")
-    private int quantity;
+    private Integer quantity;
 
     @Column(name = "price")
-    private int price;
+    private Integer price;
 
     @Column(name = "prescribed")
     private Boolean prescribed;

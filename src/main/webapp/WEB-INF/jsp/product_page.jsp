@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<html ng-app="myApp" ng-controller="myCatalogController">
+<html ng-app="myApp">
+<%--ng-controller="myProductController"--%>
 <head>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.js"></script>
@@ -12,9 +12,9 @@
     var app = angular.module("myApp", []);
 </script>
 <ul class="menu" style="text-align: right">
-    <li><a href="product">Catalog</a></li>
-    <li><a href="cart">Cart</a></li>
-    <li><a href="account">My account</a></li>
+    <li><a href="#">Catalog</a></li>
+    <li><a href="#">Cart</a></li>
+    <li><a href="#">My account</a></li>
     <li><a href="#">Log Out</a></li>
 </ul>
 
@@ -22,13 +22,13 @@
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
           integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     <input type="text" placeholder="Поиск по каталогу...">
-    <button type="submit" class="search-button" ng-click = "searchProduct(product.name)"></button>
+    <button type="submit" class="search-button" ng-click="searchProduct(product.name)"></button>
 </div>
 <div class="product-container">
     <table style="width: 100%">
         <tr ng-repeat="product in products">
             <td width="100px">{{product.image ? product.image : "Нет изображения"}}</td>
-            <td ng-click = "getProductId(product.productId)">{{product.name}}</td>
+            <td>{{product.name}}</td>
             <td>{{product.price ? product.price : "Данные отсутствуют."}} руб.</td>
             <td>
                 <div class="number" data-step="1" data-min="1" data-max="100">
@@ -49,17 +49,17 @@
     </table>
 </div>
 <script type="text/javascript">
-    app.controller("myCatalogController", function ($scope, $http) {
+    app.controller("myProductController", function ($scope, $http) {
 
-        $scope.products = [];
+        $scope.product = [];
 
         <%-- Получение списка товаров--%>
-        $scope.readProductList = function () {
-            $scope.list = $http.get("api/pharmacy/product")
+        $scope.readProductInfo = function () {
+            $scope.list = $http.get("api/pharmacy/product/" + productId)
                 .then(
                     function (response) {
-                        $scope.products = response.data;
-                        console.log($scope.products);
+                        $scope.product = response.data;
+                        console.log($scope.product);
                     },
                     function (errResp) {
                         console.error(errResp);
@@ -92,11 +92,6 @@
             //....$http.post()
         }
 
-        $scope.getProductId = (productId) => {
-            console.log(productId);
-            // $http.get("api/pharmacy/product/" + productId);
-        }
-
         $scope.textInSearch = "aaa";
 
         $scope.readLine = (text) => {
@@ -104,7 +99,7 @@
         }
 
         $scope.searchProduct = (textInSearch) => {
-            if ($scope.products.name === $scope.textInSearch){
+            if ($scope.products.name === $scope.textInSearch) {
                 $scope.products = 'a';
                 console.log($scope.textInSearch);
                 console.log($scope.products);
@@ -113,8 +108,9 @@
 
         angular.element(document).ready(function () {
             console.log('page loading completed');
-            $scope.readProductList();
+            $scope.readProductInfo();
         });
+
     });
 </script>
 </body>

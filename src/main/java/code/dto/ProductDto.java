@@ -20,9 +20,9 @@ public class ProductDto {
 
     private String sideEffects;
 
-    private int quantity;
+    private Integer quantity;
 
-    private int price;
+    private Integer price;
 
     private Boolean prescribed;
 

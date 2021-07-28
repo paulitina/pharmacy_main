@@ -1,0 +1,144 @@
+.menu {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    background-color: #9292d1;
+}
+
+.menu a {
+    text-decoration: none;
+    font-family: sans-serif;
+    color: #5757a0;
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: lavender;
+    border-bottom: 5px solid #5757a0;
+}
+
+.menu li {
+    display: inline;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+form {
+    position: relative;
+    width: 60%;
+    margin: 2% auto;
+    background: #ffffff;
+    border-bottom: 4px solid #5757a0;
+}
+
+input {
+    width: 100%;
+    font-family: sans-serif;
+    font-size: 15px;
+    height: 42px;
+    padding-left: 15px;
+}
+
+.search-button {
+    position: absolute;
+    top: 0;
+    right: 0px;
+    width: 42px;
+    height: 42px;
+    border: none;
+    background: lavender;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+}
+
+.btn {
+    text-decoration: none;
+    font-family: sans-serif;
+    color: #5757a0;
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: lavender;
+    border-bottom: 5px solid #5757a0;
+}
+
+.search-button:before {
+    content: "\f002";
+    font-family: FontAwesome;
+    font-size: 16px;
+    color: #5757a0;
+}
+
+table {
+    table-layout: fixed;
+    margin-left: 5%;
+}
+
+.number {
+    display: inline-block;
+    user-select: none;
+    position: relative;
+    text-align: left;
+    padding: 0;
+    width: 130px;
+    border: 1px solid white;
+    height: 55px;
+    background-color: white;
+}
+
+.number-controls {
+    position: absolute;
+    background-color: white;
+    top: 0;
+    right: 0;
+    width: 58px;
+    border-left: 1px solid white;
+}
+
+.number-minus, .number-plus {
+    display: block;
+    height: 27px;
+    line-height: 27px;
+    background: lavender;
+    font-size: 20px;
+    font-weight: 600;
+    text-align: center;
+    font-family: sans-serif;
+    color: #5757a0;
+    text-decoration: none;
+}
+
+.number-plus {
+    border-bottom: 1px solid #5757a0;
+}
+
+.number-minus:hover, .number-plus:hover {
+    background: lavender;
+}
+
+.number-minus:active, .number-plus:active {
+    background: lavender;
+}
+
+.number-text {
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+    width: 33px;
+    height: 55px;
+    line-height: 55px;
+    font-size: 14px;
+    color: #000000;
+    background: white;
+    outline: none;
+    border: none;
+    text-align: right;
+}
+
+.number-unit {
+    display: inline-block;
+    font-size: 13px;
+    background-color: white;
+    color: #000000;
+    line-height: 55px;
+    height: 55px
+}
