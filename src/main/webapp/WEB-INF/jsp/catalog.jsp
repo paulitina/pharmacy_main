@@ -97,11 +97,10 @@
             if (!$scope.productId) {
                 return;
             }
-            // $scope.popover.close();
-            let link = $("#openLink")[0];
-            link.href = "http://localhost:8080/product_page.jsp/productId?productId=" + $scope.productId + '\'';
-            console.log(link.href);
+            let link = $("#openLink");
+            link.href = "http://localhost:8080/product/" + $scope.productId ;
             link.click();
+            console.log(link.href);
         };
 
         $scope.productId = '';
@@ -109,7 +108,6 @@
         $scope.getProductId = (productId) => {
             $scope.productId = productId;
             console.log(productId);
-            console.log($scope.productId);
             $scope.openPage();
             // $http.get("api/pharmacy/product/" + productId);
         }
