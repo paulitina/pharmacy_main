@@ -24,9 +24,9 @@ public class MainController {
 //        return "for admin";
 //    }
 
-    @GetMapping("/")
-    public String test(){
-        log.info("{}", SecurityContextHolder.getContext().getAuthentication());
-        return "dhbjn";
-    }
+//    @GetMapping("/")
+//    public String test(){
+//        log.info("{}", SecurityContextHolder.getContext().getAuthentication());
+//        return "dhbjn";
+//    }
 }

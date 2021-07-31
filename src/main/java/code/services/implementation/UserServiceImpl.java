@@ -24,8 +24,10 @@ public class UserServiceImpl implements UserService {
     //return user from DB online
     public UserDto createUserDto(User user) {
         UserDto userDto = new UserDto();
+        userDto.setUserId(user.getUserId());
         userDto.setUserName(user.getUserName());
         userDto.setEmail(user.getEmail());
+        userDto.setPassword("************");
         return userDto;
     }
 

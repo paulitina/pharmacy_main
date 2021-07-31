@@ -26,6 +26,6 @@ public class ProductDto {
 
     private Boolean prescribed;
 
-    private String image;
+    private byte[] image;
 
 }

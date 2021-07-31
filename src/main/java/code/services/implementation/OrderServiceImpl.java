@@ -43,8 +43,7 @@ public class OrderServiceImpl implements OrderService {
             return new ArrayList<>();
         }
         List<OrderProductDto> orderProductDtoList = orderProducts.stream()
-                .map(orderProduct -> new OrderProductDto(orderProduct.getProductId(),
-                        orderProduct.getOrderId(),
+                .map(orderProduct -> new OrderProductDto(orderProduct.getOrderId(), orderProduct.getProductId(),
                         orderProduct.getQuantity()))
                 .collect(Collectors.toList());
         return orderProductDtoList;
@@ -70,7 +69,7 @@ public class OrderServiceImpl implements OrderService {
             orderInCart = orders.get(0);
         }
         int quantity = 1;
-        OrderProduct orderProduct = new OrderProduct(productId, orderInCart.getOrderId(), quantity);
+        OrderProduct orderProduct = new OrderProduct(orderInCart.getOrderId(), productId, quantity);
         orderProductDao.save(orderProduct);
     }
 

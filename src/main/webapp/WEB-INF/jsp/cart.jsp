@@ -17,7 +17,7 @@
     <li><a href="#">Log Out</a></li>
 </ul>
 <div class="product-container">
-    <table style="width: 100%">
+    <table style="width: 100%" ng-show="showCart">
         <tr ng-repeat="item in orderInCart">
             <td width="100px">{{item.address}}</td>
 <%--            <td>{{item.name}}</td>--%>
@@ -32,11 +32,6 @@
                     </div>
                 </div>
             </td>
-            <td>
-                <button type="button" class="btn btn-default" ng-click="addToCart(product.productId, product.count)">
-                    Добавить в корзину
-                </button>
-            </td>
         </tr>
     </table>
 </div>
@@ -44,14 +39,19 @@
     app.controller("myCartController", function ($scope, $http) {
 
         $scope.orderInCart = [];
+        $scope.showCart = true;
 
             <%-- Получение товара в корзине--%>
-        $scope.readOrderInCart = function () {
+        $scope.getOrderInCart = function () {
             $http.get("api/pharmacy/order/cart")
                 .then(
                     function (response) {
                         $scope.orderInCart = response.data;
                         console.log($scope.orderInCart);
+                        if($scope.orderInCart === []){
+                            $scope.showCart = false;
+                        }
+                        console.log($scope.showCart);
                     },
                     function (errResp) {
                         console.error(errResp);
@@ -79,7 +79,7 @@
 
         angular.element(document).ready(function () {
             console.log('page loading completed');
-            $scope.readOrderInCart();
+            $scope.getOrderInCart();
         });
     });
 </script>

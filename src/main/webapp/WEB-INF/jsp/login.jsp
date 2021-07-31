@@ -149,19 +149,22 @@
             if (data.target) {
                 form.attr("target", data.target);
             }
-            console.log(data.fields);
             if (data.fields) {
-                data.fields.forEach(function (index, element) {
+                data.fields.forEach(function (element, index) {
                     var input = $("<input/>");
-                    input.attr("type", "hidden");
+                    // input.attr("type", "hidden");
                     input.attr("name", element.name);
                     input.attr("value", element.value);
                     form.append(input);
+                    console.log(element.name);
+                    console.log(element.value);
+                    console.log(input);
                 });
             }
+            console.log(form);
             form.appendTo($(document.body));
             form.submit();
-  <%-- ???--%>          $("#" + id).remove();
+            $("#" + id).remove();
         }
 
         <%-- Призак того, что пользователь ввёл данные --%>

@@ -1,3 +1,5 @@
+<%@ page import="code.services.implementation.OrderServiceImpl" %>
+<%@ page import="org.springframework.beans.factory.annotation.Autowired" %>
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html ng-app="myApp" ng-controller="myCatalogController">
@@ -22,13 +24,15 @@
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
           integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     <input type="text" placeholder="Поиск по каталогу...">
-    <button type="submit" class="search-button" ng-click = "searchProduct(product.name)"></button>
+    <button type="submit" class="search-button" ng-click="searchProduct(product.name)"></button>
 </form>
 <div class="product-container">
     <table style="width: 100%">
         <tr ng-repeat="product in products">
             <td width="100px">{{product.image ? product.image : "Нет изображения"}}</td>
-            <td ng-click = "getProductId(product.productId)">{{product.name}}</td>
+            <td>
+                <button type="button" ng-click="openProductPage(product.productId)">{{product.name}}</button>
+            </td>
             <td>{{product.price ? product.price : "Данные отсутствуют."}} руб.</td>
             <td>
                 <div class="number" data-step="1" data-min="1" data-max="100">
@@ -78,37 +82,56 @@
             console.log(product.count);
         }
 
-
         $scope.addToCart = (productId, count) => {
             if (!count) {
                 count = 1;
             }
+            $scope.orderInCart = [];
+
+            $scope.list = $http.get('api/pharmacy/order/cart')
+                .then(
+                    function (response) {
+                        $scope.orderInCart = response.data;
+                        console.log("dfcedsc"+$scope.orderInCart);
+                    },
+                    function (errResp) {
+                        console.error(errResp);
+                    }
+                );
             console.log('added to cart product ' + productId + ' at number of ' + count);
+            console.log("dfcedsc"+$scope.list);
+            $scope.productsToBuy = {
+                productId: productId,
+                orderId: $scope.list.orderId,
+                quantity: count
+            }
+            console.log($scope.productsToBuy);
+            $scope.updateCart();
         }
 
 
         $scope.updateCart = () => {
             console.log('updating cart');
-            console.log($scope.products);
-            $http.put("api/pharmacy/order/cart", $scope.products);
+            $http.put("api/pharmacy/order/cart", $scope.productsToBuy);
         }
 
-        $scope.openPage = function () {
+        $scope.productId = '';
+
+        $scope.openProductPage = function (productId) {
+            $scope.productId = productId;
+            console.log(productId);
             if (!$scope.productId) {
                 return;
             }
-            let link = $("#openLink");
-            link.href = "http://localhost:8080/product/" + $scope.productId ;
+            let link = $("#openLink")[0];
+            link.href = "http://localhost:8080/product_page?productId=" + $scope.productId;
             link.click();
             console.log(link.href);
         };
 
-        $scope.productId = '';
 
         $scope.getProductId = (productId) => {
-            $scope.productId = productId;
-            console.log(productId);
-            $scope.openPage();
+
             // $http.get("api/pharmacy/product/" + productId);
         }
 
@@ -119,7 +142,7 @@
         }
 
         $scope.searchProduct = (textInSearch) => {
-            if ($scope.products.name === $scope.textInSearch){
+            if ($scope.products.name === $scope.textInSearch) {
                 $scope.products = 'a';
                 console.log($scope.textInSearch);
                 console.log($scope.products);

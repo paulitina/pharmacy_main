@@ -1,0 +1,43 @@
+.user-container {
+    position: fixed;
+    place-items: inherit;
+    width: 600px;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    font-size: 18px;
+}
+
+div .middleAndBottom {
+    margin-top: 5%;
+}
+
+.email {
+    font-size: 18px;
+}
+
+.btn {
+    width: 250px;
+    margin-left: 50%;
+    margin-top: 3%;
+}
+
+.userNameHead {
+    margin-top: 5%;
+    font-weight: bold;
+}
+
+
+.emailHead {
+    margin-top: 5%;
+    font-weight: bold;
+}
+
+.userName {
+}
+
+.passwordHead {
+    margin-top: 5%;
+    font-weight: bold;
+}

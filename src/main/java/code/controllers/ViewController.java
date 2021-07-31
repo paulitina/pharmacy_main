@@ -2,6 +2,7 @@ package code.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
 public class ViewController {
@@ -12,7 +13,7 @@ public class ViewController {
         return "catalog";
     }
 
-    @GetMapping("product/{productId}")
+    @GetMapping("product")
     public String getProductInfoView() {
         return "product_page";
     }
@@ -26,9 +27,4 @@ public class ViewController {
     public String getUserInfo() {
         return "account";
     }
-
-//    @GetMapping("login.jsp")
-//    public String getLoginJSPView() {
-//        return "login";
-//    }
 }

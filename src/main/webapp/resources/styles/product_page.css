@@ -1,144 +1,70 @@
-.menu {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    background-color: #9292d1;
+.prodName {
+    font-size: 40px;
+    font-weight: bold;
 }
 
-.menu a {
-    text-decoration: none;
-    font-family: sans-serif;
-    color: #5757a0;
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: lavender;
-    border-bottom: 5px solid #5757a0;
-}
-
-.menu li {
-    display: inline;
-}
-
-* {
-    box-sizing: border-box;
-}
-
-form {
-    position: relative;
-    width: 60%;
-    margin: 2% auto;
-    background: #ffffff;
-    border-bottom: 4px solid #5757a0;
-}
-
-input {
-    width: 100%;
-    font-family: sans-serif;
-    font-size: 15px;
-    height: 42px;
-    padding-left: 15px;
-}
-
-.search-button {
-    position: absolute;
-    top: 0;
-    right: 0px;
-    width: 42px;
-    height: 42px;
-    border: none;
-    background: lavender;
-    border-radius: 0 5px 5px 0;
-    cursor: pointer;
-}
-
-.btn {
-    text-decoration: none;
-    font-family: sans-serif;
-    color: #5757a0;
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: lavender;
-    border-bottom: 5px solid #5757a0;
-}
-
-.search-button:before {
-    content: "\f002";
-    font-family: FontAwesome;
-    font-size: 16px;
-    color: #5757a0;
-}
-
-table {
-    table-layout: fixed;
-    margin-left: 5%;
+.prodPrice {
+    font-size: 22px;
+    margin-left: 25%;
+    margin-top: 25px;
+    margin-bottom: 10px;
 }
 
 .number {
-    display: inline-block;
-    user-select: none;
-    position: relative;
-    text-align: left;
-    padding: 0;
-    width: 130px;
-    border: 1px solid white;
-    height: 55px;
-    background-color: white;
+    margin-left: 20%;
+    margin-top: 20px;
 }
 
-.number-controls {
-    position: absolute;
-    background-color: white;
-    top: 0;
-    right: 0;
-    width: 58px;
-    border-left: 1px solid white;
+.btn {
+    margin-left: 20%;
+    margin-top: 30px;
 }
 
-.number-minus, .number-plus {
-    display: block;
-    height: 27px;
-    line-height: 27px;
-    background: lavender;
-    font-size: 20px;
-    font-weight: 600;
-    text-align: center;
-    font-family: sans-serif;
-    color: #5757a0;
-    text-decoration: none;
+.upperPart {
+    margin-left: -30%;
+    max-width: 50%;
+    align-items: center;
+    justify-content: center;
+    margin-top: 50px;
+    float: right;
 }
 
-.number-plus {
-    border-bottom: 1px solid #5757a0;
+.manufacturer {
+    margin-left: 10%;
+    margin-top: 5%;
+    font-size: 18px;
+    max-width: 40%;
 }
 
-.number-minus:hover, .number-plus:hover {
-    background: lavender;
+
+.indications {
+    max-width: 35%;
+    font-size: 18px;
+    margin-top: 5%;
+    margin-left: 10%;
+    float: left;
 }
 
-.number-minus:active, .number-plus:active {
-    background: lavender;
+.sideEffects {
+    max-width: 35%;
+    font-size: 18px;
+    margin-top: 5%;
+    margin-left: 10%;
+    float: right;
 }
 
-.number-text {
-    display: inline-block;
-    padding: 0;
-    margin: 0;
-    width: 33px;
-    height: 55px;
-    line-height: 55px;
-    font-size: 14px;
-    color: #000000;
-    background: white;
-    outline: none;
-    border: none;
-    text-align: right;
+.prescibed {
+    max-width: 80%;
+    font-size: 18px;
+    margin-top: 10%;
+    margin-left: 10%;
+
 }
 
-.number-unit {
-    display: inline-block;
-    font-size: 13px;
-    background-color: white;
-    color: #000000;
-    line-height: 55px;
-    height: 55px
+.image {
+    width: 40%;
+    margin-top: 10%;
+    margin-bottom: 10%;
+    height: 40%;
+    float: left;
 }

@@ -17,13 +17,13 @@ import java.util.stream.Collectors;
 public class ProductServiceImpl implements ProductService {
     private final ProductDao productDao;
 
-    public byte[] createBytesFromImageUrl(String url){
-        return Base64.getDecoder().decode(url);
-    }
-
-    public String createUrlFromBytes(byte[] urlInBytes) {
-        return Base64.getEncoder().encodeToString(urlInBytes);
-    }
+//    public byte[] createBytesFromImageUrl(String url){
+//        return Base64.getDecoder().decode(url);
+//    }
+//
+//    public String createUrlFromBytes(byte[] urlInBytes) {
+//        return Base64.getEncoder().encodeToString(urlInBytes);
+//    }
 
     //return product from db online
     public ProductDto createProductDto(Product product) {
@@ -36,7 +36,7 @@ public class ProductServiceImpl implements ProductService {
         productDto.setQuantity(product.getQuantity());
         productDto.setPrescribed(product.getPrescribed());
         productDto.setPrice(product.getPrice());
-        productDto.setImage(createUrlFromBytes(product.getImage()));
+        productDto.setImage(product.getImage());
         return productDto;
     }
 
@@ -45,12 +45,12 @@ public class ProductServiceImpl implements ProductService {
     public Product addProduct(ProductDto productDto) throws MyException {
         return productDao.save(new Product(productDto.getProductId(), productDto.getName(), productDto.getIndications(), productDto.getManufacturerInfo(),
                 productDto.getSideEffects(), productDto.getQuantity(), productDto.getPrice(), productDto.getPrescribed(),
-                createBytesFromImageUrl(productDto.getImage())));
+                productDto.getImage()));
     }
 
     @Override
     public Product updateProduct(ProductDto productDto) throws MyException {
-        Product product = productDao.findById(productDto.getProductId()).get();
+        Product product = productDao.findById(productDto.getProductId()).orElse(null);
         product.setName(productDto.getName());
         product.setIndications(productDto.getIndications());
         product.setSideEffects(productDto.getSideEffects());
@@ -58,7 +58,7 @@ public class ProductServiceImpl implements ProductService {
         product.setQuantity(productDto.getQuantity());
         product.setPrice(product.getPrice());
         product.setPrescribed(productDto.getPrescribed());
-        product.setImage(createBytesFromImageUrl(productDto.getImage()));
+        product.setImage(productDto.getImage());
         productDao.save(product);
         return product;
     }
@@ -72,7 +72,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDto getProductInfo(Long productId) throws MyException {
-        Product product = productDao.findById(productId).get();
+        Product product = productDao.findById(productId).orElse(null);
         return createProductDto(product);
     }
 

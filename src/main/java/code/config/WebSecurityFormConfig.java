@@ -1,9 +1,9 @@
 package code.config;
 
 import code.log.CustomAuthenticationProvider;
+import code.repositories.UserDao;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -11,9 +11,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 @Configuration
 @EnableWebSecurity
@@ -29,9 +26,12 @@ public class WebSecurityFormConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers("/**").authenticated();
         http.formLogin().loginPage("/login_page").defaultSuccessUrl("/catalog").loginProcessingUrl("/login")
                 .usernameParameter("idUser").passwordParameter("idPassword").permitAll();
+//                .
+//                and().authenticationProvider(new CustomAuthenticationProvider(userDao));
         http.headers();
     }
 
+//    defaultSuccessUrl("/catalog").
 
 //    @Bean
 //    @Override
@@ -50,7 +50,6 @@ public class WebSecurityFormConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/resources/**");
     }
 
-    @Autowired
     @Override
     public void configure(AuthenticationManagerBuilder auth) {
         auth.authenticationProvider(databaseAuthenticationProvider);
