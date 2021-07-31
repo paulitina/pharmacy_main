@@ -22,19 +22,18 @@ public class OrderController {
         return ResponseEntity.ok(orderService.getUserOrderInCart());
     }
 
-
     @GetMapping("/all")
-    private ResponseEntity<List<OrderDto>> findOrdersOfUser() throws MyException {
+    private ResponseEntity<List<OrderDto>> findOrdersOfUser() {
         return ResponseEntity.ok(orderService.findOrdersOfUser());
     }
 
     @PutMapping("/cart")
-    private ResponseEntity<Order> updateOrder(List<OrderProductDto> orderProductDtoList) throws MyException {
+    private ResponseEntity<Order> updateOrder(List<OrderProductDto> orderProductDtoList) {
         return ResponseEntity.ok(orderService.updateOrderProductList(orderProductDtoList));
     }
 
     @PostMapping("/cart")
-    private void deleteProductInProductList(Long productId) throws MyException {
+    private void deleteProductInProductList(Long productId) {
         orderService.deleteProductInProductList(productId);
     }
 //

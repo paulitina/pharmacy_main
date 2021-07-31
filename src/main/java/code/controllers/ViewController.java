@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class ViewController {
 
 
-    @GetMapping("product")
+    @GetMapping("catalog")
     public String getProductView() {
-        return "product";
+        return "catalog";
     }
 
     @GetMapping("product/{productId}")

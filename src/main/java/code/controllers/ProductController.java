@@ -6,7 +6,6 @@ import code.entities.Product;
 import code.services.implementation.ProductServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
@@ -35,16 +34,16 @@ public class ProductController {
         return ResponseEntity.ok(productServiceImpl.getProductInfo(productId));
     }
 
-    //    @PostMapping
-//    private ResponseEntity<Product> addProduct(ProductDto productDto) throws MyException {
-//        return ResponseEntity.ok(productServiceImpl.addProduct(productDto));
-//    }
-
-    @GetMapping("/addProduct")
-    public String addProductView(Model model) {
-        model.addAttribute("product", new Product());
-        return "add-product";
+    @PostMapping
+    private ResponseEntity<Product> addProduct(ProductDto productDto) throws MyException {
+        return ResponseEntity.ok(productServiceImpl.addProduct(productDto));
     }
+
+//    @GetMapping("/addProduct")
+//    public String addProductView(Model model) {
+//        model.addAttribute("product", new Product());
+//        return "add-product";
+//    }
 
     @PostMapping("/addProduct")
     public RedirectView addListOfProducts(@ModelAttribute("product") ProductDto productDto,

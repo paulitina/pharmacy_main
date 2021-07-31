@@ -7,9 +7,9 @@ import code.repositories.UserDao;
 import code.services.api.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
@@ -18,8 +18,6 @@ import java.security.SecureRandom;
 @RequiredArgsConstructor
 @ToString
 public class UserServiceImpl implements UserService {
-
-    BCryptPasswordEncoder bCryptPasswordEncoder;
 
     private final UserDao userDao;
 
@@ -65,7 +63,7 @@ public class UserServiceImpl implements UserService {
     //Создаем хэш из пароля и соли
     public String createPasswordHash(String password, String passwordSalt) {
         String passwordWithSalt = password + passwordSalt;
-        return bCryptPasswordEncoder.encode(passwordWithSalt);
+        return DigestUtils.md5Hex(passwordWithSalt);
     }
 
 

@@ -20,7 +20,6 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -44,6 +43,29 @@ public class OrderServiceImplTest {
     @Autowired
     private OrderServiceImpl orderService;
 
+    public List<OrderProductDto> createOrderProductDtoList(Long orderId, Long productId, Integer quantity, Long orderId2, Long productId2, Integer quantity2){
+        OrderProductDto orderProductDto1 = new OrderProductDto(orderId, productId, quantity);
+        OrderProductDto orderProductDto2 = new OrderProductDto(orderId2, productId2, quantity2);
+        return Arrays.asList(orderProductDto1, orderProductDto2);
+    }
+
+    public List<OrderProduct> createOrderProductList(Long orderId, Long productId, Long orderId2, Long productId2){
+        OrderProduct orderProduct1 = orderProductDao.getById(new OrderProductPK(orderId, productId));
+        OrderProduct orderProduct2 = orderProductDao.getById(new OrderProductPK(orderId2, productId2));
+        return Arrays.asList(orderProduct1, orderProduct2);
+    }
+
+    public List<OrderProduct> createExpectedOrderProductList4Two(Long productIdInDb, Long productId2InDb, Long orderIdInDb,
+                                                             Long orderId, Long productId, Integer quantuty, Long orderId2,
+                                                             Long productId2, Integer quantity2) {
+        Product product1 = productDao.findById(productIdInDb).orElse(null);
+        Product product2 = productDao.findById(productId2InDb).orElse(null);
+        Order order = orderDao.findById(orderIdInDb).orElse(null);
+        OrderProduct orderProductExp1 = new OrderProduct(orderId, productId, quantuty, product2, order);
+        OrderProduct orderProductExp2 = new OrderProduct(orderId2, productId2, quantity2, product1, order);
+        return Arrays.asList(orderProductExp1, orderProductExp2);
+    }
+
     @Test
     @Transactional
     @WithMockUser(username = "userName")
@@ -60,26 +82,12 @@ public class OrderServiceImplTest {
     @Transactional
     @WithMockUser(username = "userName")
     @Sql(value = {"/create-order-before.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    public void whenNewOrderProductDtoListUpdateCartWithProductListThenNewListOfOrderProductsInDBTest() throws MyException {
-        OrderProductDto orderProductDto1 = new OrderProductDto(1L, 2L, 2);
-        OrderProductDto orderProductDto2 = new OrderProductDto(1L, 1L, 1);
-        List<OrderProductDto> orderProductDtoList = new ArrayList<>();
-        orderProductDtoList.add(orderProductDto1);
-        orderProductDtoList.add(orderProductDto2);
+    public void whenNewOrderProductDtoListUpdateCartWithProductListThenNewListOfOrderProductsInDBTest() {
+        List<OrderProductDto> orderProductDtoList = createOrderProductDtoList(1L, 2L, 2, 1L, 1L, 1);
         orderService.updateOrderProductList(orderProductDtoList);
-        List<OrderProduct> actualOrderProductList = new ArrayList<>();
-        OrderProduct orderProduct1 = orderProductDao.getById(new OrderProductPK(1L, 2L));
-        OrderProduct orderProduct2 = orderProductDao.getById(new OrderProductPK(1L, 1L));
-        actualOrderProductList.add(orderProduct1);
-        actualOrderProductList.add(orderProduct2);
-        List<OrderProduct> expectedOrderProductList = new ArrayList<>();
-        Product product1 = productDao.findById(1L).get();
-        Product product2 = productDao.findById(2L).get();
-        Order order = orderDao.findById(1L).get();
-        OrderProduct orderProductExp1 = new OrderProduct(1L, 2L, 2, product2, order);
-        OrderProduct orderProductExp2 = new OrderProduct(1L, 1L, 1, product1, order);
-        expectedOrderProductList.add(orderProductExp1);
-        expectedOrderProductList.add(orderProductExp2);
+        List<OrderProduct> actualOrderProductList = createOrderProductList(1L, 2L, 1L, 1L);
+        List<OrderProduct> expectedOrderProductList = createExpectedOrderProductList4Two(1L, 2L,
+                1L, 1L, 2L, 2, 1L, 1L, 1);
         assertEquals(expectedOrderProductList, actualOrderProductList);
     }
 
@@ -87,7 +95,7 @@ public class OrderServiceImplTest {
     @Transactional
     @WithMockUser(username = "userName")
     @Sql(value = {"/create-order-before.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    public void whenDeleteProductInProductListThenProductsIsRemovedFromDBTest(){
+    public void whenDeleteProductInProductListThenProductsIsRemovedFromDBTest() {
         orderService.deleteProductInProductList(2L);
         List<OrderProduct> actualProductList = orderDao.findById(1L).get().getOrderProductList();
         Product product2 = productDao.findById(1L).get();

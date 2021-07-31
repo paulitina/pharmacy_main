@@ -8,6 +8,7 @@ import code.services.api.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,6 +16,14 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
     private final ProductDao productDao;
+
+    public byte[] createBytesFromImageUrl(String url){
+        return Base64.getDecoder().decode(url);
+    }
+
+    public String createUrlFromBytes(byte[] urlInBytes) {
+        return Base64.getEncoder().encodeToString(urlInBytes);
+    }
 
     //return product from db online
     public ProductDto createProductDto(Product product) {
@@ -27,7 +36,7 @@ public class ProductServiceImpl implements ProductService {
         productDto.setQuantity(product.getQuantity());
         productDto.setPrescribed(product.getPrescribed());
         productDto.setPrice(product.getPrice());
-        productDto.setImage(productDto.getImage());
+        productDto.setImage(createUrlFromBytes(product.getImage()));
         return productDto;
     }
 
@@ -36,7 +45,7 @@ public class ProductServiceImpl implements ProductService {
     public Product addProduct(ProductDto productDto) throws MyException {
         return productDao.save(new Product(productDto.getProductId(), productDto.getName(), productDto.getIndications(), productDto.getManufacturerInfo(),
                 productDto.getSideEffects(), productDto.getQuantity(), productDto.getPrice(), productDto.getPrescribed(),
-                productDto.getImage()));
+                createBytesFromImageUrl(productDto.getImage())));
     }
 
     @Override
@@ -49,7 +58,7 @@ public class ProductServiceImpl implements ProductService {
         product.setQuantity(productDto.getQuantity());
         product.setPrice(product.getPrice());
         product.setPrescribed(productDto.getPrescribed());
-        product.setImage(productDto.getImage());
+        product.setImage(createBytesFromImageUrl(productDto.getImage()));
         productDao.save(product);
         return product;
     }
@@ -66,4 +75,5 @@ public class ProductServiceImpl implements ProductService {
         Product product = productDao.findById(productId).get();
         return createProductDto(product);
     }
+
 }

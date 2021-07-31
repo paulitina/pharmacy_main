@@ -94,7 +94,7 @@ public class OrderServiceImpl implements OrderService {
         for (OrderProductDto i : orderProductDtoList) {
             int quantity = i.getQuantity();
             Long productId = i.getProductId();
-            OrderProduct orderProduct = orderProductDao.findById(new OrderProductPK(orderId, productId)).get();
+            OrderProduct orderProduct = orderProductDao.findById(new OrderProductPK(orderId, productId)).orElse(null);
             orderProduct.setQuantity(quantity);
             orderProductDao.save(orderProduct);
         }
@@ -117,7 +117,7 @@ public class OrderServiceImpl implements OrderService {
 
     //возвращаем данные корзины из БД в виде ДТО
     @Override
-    public OrderDto getUserOrderInCart() throws MyException {
+    public OrderDto getUserOrderInCart() {
         Order order = getOrderInCart();
         return createOrderDto(order);
     }

@@ -12,18 +12,18 @@
     var app = angular.module("myApp", []);
 </script>
 <ul class="menu" style="text-align: right">
-    <li><a href="product">Catalog</a></li>
+    <li><a href="catalog">Catalog</a></li>
     <li><a href="cart">Cart</a></li>
     <li><a href="account">My account</a></li>
     <li><a href="#">Log Out</a></li>
 </ul>
 
-<div>
+<form>
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
           integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     <input type="text" placeholder="Поиск по каталогу...">
     <button type="submit" class="search-button" ng-click = "searchProduct(product.name)"></button>
-</div>
+</form>
 <div class="product-container">
     <table style="width: 100%">
         <tr ng-repeat="product in products">
@@ -88,12 +88,29 @@
 
 
         $scope.updateCart = () => {
-            console.log('updating cart')
-            //....$http.post()
+            console.log('updating cart');
+            console.log($scope.products);
+            $http.put("api/pharmacy/order/cart", $scope.products);
         }
 
+        $scope.openPage = function () {
+            if (!$scope.productId) {
+                return;
+            }
+            // $scope.popover.close();
+            let link = $("#openLink")[0];
+            link.href = "http://localhost:8080/product_page.jsp/productId?productId=" + $scope.productId + '\'';
+            console.log(link.href);
+            link.click();
+        };
+
+        $scope.productId = '';
+
         $scope.getProductId = (productId) => {
+            $scope.productId = productId;
             console.log(productId);
+            console.log($scope.productId);
+            $scope.openPage();
             // $http.get("api/pharmacy/product/" + productId);
         }
 

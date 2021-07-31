@@ -1,11 +1,10 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
-<html ng-app="myApp">
-<%--ng-controller="myProductController"--%>
+<html ng-app="myApp" ng-controller="myProductController">
 <head>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.js"></script>
     <link rel="stylesheet" href="resources/styles/product_catalog.css">
-    <title>Catalog</title>
+    <title>Product</title>
 </head>
 <body ng-cloak>
 <script type="text/javascript">
