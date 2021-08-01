@@ -1,6 +1,5 @@
 package code.services.implementation;
 
-import code.MyException;
 import code.dto.OrderDto;
 import code.dto.OrderProductDto;
 import code.entities.Order;
@@ -42,11 +41,10 @@ public class OrderServiceImpl implements OrderService {
         if (orderProducts == null) {
             return new ArrayList<>();
         }
-        List<OrderProductDto> orderProductDtoList = orderProducts.stream()
+        return orderProducts.stream()
                 .map(orderProduct -> new OrderProductDto(orderProduct.getOrderId(), orderProduct.getProductId(),
                         orderProduct.getQuantity()))
                 .collect(Collectors.toList());
-        return orderProductDtoList;
     }
 
     //создаем пустую корзину
@@ -68,7 +66,7 @@ public class OrderServiceImpl implements OrderService {
         } else {
             orderInCart = orders.get(0);
         }
-        int quantity = 1;
+        Integer quantity = 1;
         OrderProduct orderProduct = new OrderProduct(orderInCart.getOrderId(), productId, quantity);
         orderProductDao.save(orderProduct);
     }
@@ -78,7 +76,7 @@ public class OrderServiceImpl implements OrderService {
     public void deleteProductInProductList(Long productId) {
         Order orderInCart = getOrderInCart();
         Long orderId = orderInCart.getOrderId();
-        OrderProduct orderProduct = orderProductDao.findById(new OrderProductPK(orderId, productId)).get();
+        OrderProduct orderProduct = orderProductDao.findById(new OrderProductPK(orderId, productId)).orElse(null);
         log.info("{}", orderProduct);
         List<OrderProduct> orderProductList = orderInCart.getOrderProductList();
         orderProductList.remove(orderProduct);
@@ -91,13 +89,13 @@ public class OrderServiceImpl implements OrderService {
         Order order = getOrderInCart();
         Long orderId = order.getOrderId();
         for (OrderProductDto i : orderProductDtoList) {
-            int quantity = i.getQuantity();
+            Integer quantity = i.getQuantity();
             Long productId = i.getProductId();
             OrderProduct orderProduct = orderProductDao.findById(new OrderProductPK(orderId, productId)).orElse(null);
             orderProduct.setQuantity(quantity);
             orderProductDao.save(orderProduct);
         }
-        order.getOrderProductList();
+//        order.getOrderProductList();
         return order;
     }
 

@@ -27,4 +27,9 @@ public class ViewController {
     public String getUserInfo() {
         return "account";
     }
+
+    @GetMapping("registration")
+    public String getRegistration() {
+        return "registration";
+    }
 }

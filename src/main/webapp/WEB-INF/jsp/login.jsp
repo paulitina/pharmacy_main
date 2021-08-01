@@ -26,13 +26,13 @@
 <div id="login-container">
     <table style="width:100%;">
         <tr>
-            <td style="width: 100%"><h1><s:message text="Input credentials to log in"/></h1></td>
+            <td style="width: 100%"><h1><s:message text="Войти"/></h1></td>
         </tr>
         <tr>
             <td colspan="2">
                 <div class="input-group tab-elm">
 					<span class="input-group-addon">
-						<s:message text="Input username"/>
+						<s:message text="Введите username"/>
 					</span>
                     <input type="text" id="idUser" class="form-control" ng-model="userName"
                            ng-keypress="userChanged($event)">
@@ -43,7 +43,7 @@
             <td colspan="2">
                 <div class="input-group tab-elm">
 					<span class="input-group-addon">
-						<s:message text="Input password"/>
+						<s:message text="Введите password"/>
 					</span>
                     <input type="password" id="idPassword" class="form-control" ng-model="password"
                            ng-keypress="passChanged($event)">
@@ -84,8 +84,9 @@
                 <div class="input-group tab-elm">
                     <button type="button" class="btn btn-default" ng-click="enter()"
                             ng-disabled="userName == '' || password == ''">
-                        <s:message text="Log In"/>
+                        <s:message text="Войти"/>
                     </button>
+                    <span class="registration" ng-click="regRedirect()">Не зарегистрированы? Нажмите сюда</span>
                 </div>
             </td>
         </tr>
@@ -127,6 +128,14 @@
         $scope.errorMessage = null;
         $scope.resetMessage = null;
         $scope.loginError = <%= loginError != null ? "\"" + loginError + "\"" : null %>;
+
+        <%-- Переход к регистрации --%>
+        $scope.regRedirect = function () {
+            let link = $("#openLink");
+            link.href = "http://localhost:8080/registration";
+            link.click();
+            console.log(link.href);
+        }
 
         <%-- Вход пользователя --%>
         $scope.enter = function () {

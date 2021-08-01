@@ -4,6 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html ng-app="myApp" ng-controller="myCatalogController">
 <head>
+    <link rel="shortcut icon" href="#">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.js"></script>
     <link rel="stylesheet" href="resources/styles/product_catalog.css">
@@ -123,8 +124,8 @@
             if (!$scope.productId) {
                 return;
             }
-            let link = $("#openLink")[0];
-            link.href = "http://localhost:8080/product_page?productId=" + $scope.productId;
+            let link = $("#openLink");
+            link.href = "http://localhost:8080/product_page.jsp?productId=" + $scope.productId;
             link.click();
             console.log(link.href);
         };

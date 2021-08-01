@@ -34,7 +34,7 @@ public class OrderProduct {
     @JoinColumn(name = "order_id", insertable=false, updatable=false)
     private Order order;
 
-    public OrderProduct(Long orderId, Long productId, int quantity) {
+    public OrderProduct(Long orderId, Long productId, Integer quantity) {
         this.orderId = orderId;
         this.productId = productId;
         this.quantity = quantity;

@@ -6,7 +6,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.js"></script>
     <link rel="stylesheet" href="resources/styles/product_catalog.css">
     <link rel="stylesheet" href="resources/styles/account.css">
-    <title>Account</title>
+    <title>Catalog</title>
 </head>
 <body ng-cloak>
 <script type="text/javascript">
@@ -20,26 +20,26 @@
 </ul>
 
 <div class="user-container" ng-model="user">
-<%--    <div>--%>
-<%--        <span class="userIdHead">Это ваш личный пользовательский номер:  </span>--%>
-<%--        <span class="userId">{{user.userId}}</span>--%>
-<%--    </div>--%>
+    <%--    <div>--%>
+    <%--        <span class="userIdHead">Это ваш личный пользовательский номер:  </span>--%>
+    <%--        <span class="userId">{{user.userId}}</span>--%>
+    <%--    </div>--%>
     <div>
         <span class="userNameHead">Ваше пользовательское имя:  </span>
         <span class="userName">{{user.userName}}</span>
-        <button type="button" class="btn" ng-click="changeUserName()">Сменить имя пользователя</button>
+        <button type="button" class="btn" ng-click="">Сменить имя пользователя</button>
         <input type="text" ng-show="showResetOfUserName">
     </div>
     <div class="middleAndBottom">
         <span class="emailHead">Ваш email:  </span>
         <span class="email">{{user.email}}</span>
-        <button type="button" class="btn" ng-click="changeEmail()">Сменить email</button>
+        <button type="button" class="btn" ng-click="">Сменить email</button>
         <input type="text" ng-show="ShowResetOfEmail">
     </div>
     <div class="middleAndBottom">
         <span class="passwordHead">Пароль засекречен в целях безопасности ваших данных:  </span>
         <span class="password">{{user.password}}</span>
-        <button type="button" class="btn" ng-click="changePassword()">Сменить пароль</button>
+        <button type="button" class="btn" ng-click="">Сменить пароль</button>
         <input type="text" ng-show="ShowResetOfPassword">
     </div>
 </div>
