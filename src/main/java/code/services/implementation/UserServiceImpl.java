@@ -96,7 +96,8 @@ public class UserServiceImpl implements UserService {
     //Обновляем с сайта данные о пользователе
     @Override
     public User updateUserInfo(UserDto userDto) throws MyException {
-        User user = userDao.findById(userDto.getUserId()).get();
+        User user = userDao.findById(userDto.getUserId()).orElse(null);
+        Long uId = userDto.getUserId();
         user.setUserName(userDto.getUserName());
         user.setEmail(userDto.getEmail());
         String password = userDto.getPassword();

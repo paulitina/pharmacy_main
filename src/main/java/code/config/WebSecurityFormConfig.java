@@ -21,15 +21,13 @@ public class WebSecurityFormConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
-        http.authorizeRequests().antMatchers("/**").authenticated();
+//        http.authorizeRequests().antMatchers("/**").authenticated();
+        http.authorizeRequests().antMatchers("/registration").permitAll().anyRequest().authenticated();
         http.formLogin().loginPage("/login_page").defaultSuccessUrl("/catalog").loginProcessingUrl("/login")
                 .usernameParameter("idUser").passwordParameter("idPassword").permitAll();
-//                .
-//                and().authenticationProvider(new CustomAuthenticationProvider(userDao));
         http.headers();
+        http.logout().permitAll().logoutSuccessUrl("/login_page");
     }
-
-//    defaultSuccessUrl("/catalog").
 
 //    @Bean
 //    @Override

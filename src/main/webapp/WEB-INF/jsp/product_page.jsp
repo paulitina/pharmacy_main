@@ -16,7 +16,7 @@
     <li><a href="catalog">Catalog</a></li>
     <li><a href="cart">Cart</a></li>
     <li><a href="account">My account</a></li>
-    <li><a href="#">Log Out</a></li>
+    <li><a href="logout">Log Out</a></li>
 </ul>
 
 <%

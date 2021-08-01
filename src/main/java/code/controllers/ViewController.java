@@ -1,8 +1,11 @@
 package code.controllers;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class ViewController {
@@ -32,8 +35,17 @@ public class ViewController {
         return "registration";
     }
 
-    @GetMapping("userOrders")
-    public String getUserOrders(){
+    @GetMapping("user_orders")
+    public String getUserOrders() {
         return "user_orders";
+    }
+
+    @GetMapping("/logout_page")
+    public String logout(HttpServletRequest request) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null) {
+            request.getSession().invalidate();
+        }
+        return "redirect:/login_page";
     }
 }

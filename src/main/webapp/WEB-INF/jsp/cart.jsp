@@ -11,10 +11,10 @@
     var app = angular.module("myApp", []);
 </script>
 <ul class="menu" style="text-align: right">
-    <li><a href="product">Catalog</a></li>
+    <li><a href="catalog">Catalog</a></li>
     <li class="current"><a href="cart">Cart</a></li>
     <li><a href="account">My account</a></li>
-    <li><a href="#">Log Out</a></li>
+    <li><a href="logout">Log Out</a></li>
 </ul>
 <div class="product-container">
     <table style="width: 100%" ng-show="showCart">
