@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 @Controller
 public class ViewController {
 
-
     @GetMapping("catalog")
     public String getProductView() {
         return "catalog";
@@ -31,5 +30,10 @@ public class ViewController {
     @GetMapping("registration")
     public String getRegistration() {
         return "registration";
+    }
+
+    @GetMapping("userOrders")
+    public String getUserOrders(){
+        return "user_orders";
     }
 }

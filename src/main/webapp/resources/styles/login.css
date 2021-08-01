@@ -9,7 +9,8 @@
 
 #reg-container {
     position: fixed;
-    width: 400px;
+    vertical-align:center;
+    width: 300px;
     top: 50%;
     left: 50%;
     -webkit-transform: translate(-50%, -50%);
@@ -29,8 +30,7 @@
     width: 100%;
 }
 
-.registration{
-    text-overline-style: ;
+.registration {
     text-align: center;
 }
 

@@ -133,7 +133,7 @@
         $scope.regRedirect = function () {
             let link = $("#openLink");
             link.href = "http://localhost:8080/registration";
-            link.click();
+            window.open(link.href);
             console.log(link.href);
         }
 

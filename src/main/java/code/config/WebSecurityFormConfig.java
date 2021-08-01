@@ -1,9 +1,7 @@
 package code.config;
 
 import code.log.CustomAuthenticationProvider;
-import code.repositories.UserDao;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
