@@ -24,7 +24,7 @@
 %>
 
 <div class="product-container" ng-model="product">
-    <img class="image" width="100px">{{product.image ? product.image : "Нет изображения"}}</img>
+    <img class="image" width="100px" alt="Нет изображения">{{product.image}}</img>
     <div class="upperPart">
         <span class="prodName">{{product.name}}</span>
         <div class="prodPrice"><span>{{product.price ? product.price : "Данные отсутствуют."}} руб.</span></div>

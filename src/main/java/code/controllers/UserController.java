@@ -17,7 +17,7 @@ public class UserController {
 
     //this is "create user"
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<User> addUser(@RequestBody UserDto userDto) throws MyException {
+    public ResponseEntity<User> addUser(UserDto userDto) throws MyException {
         return ResponseEntity.ok(userService.addUser(userDto));
     }
 

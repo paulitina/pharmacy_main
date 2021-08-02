@@ -1,4 +1,13 @@
-.prodName {
+.product-container{
+    position: relative;
+    width: 80%;
+    left: 5%;
+    -webkit-transform: translate(1%, 1%);
+    transform: translate(1%, 1%);
+    font-size: 18px;
+}
+
+.upperPart .prodName {
     font-size: 40px;
     font-weight: bold;
 }
@@ -21,28 +30,24 @@
 }
 
 .upperPart {
-    margin-left: -30%;
+    position: relative;
+    left: 10%;
     max-width: 50%;
-    align-items: center;
-    justify-content: center;
     margin-top: 50px;
-    float: right;
 }
 
 .manufacturer {
     margin-left: 10%;
-    margin-top: 5%;
+    top: 100%;
     font-size: 18px;
     max-width: 40%;
 }
 
-
 .indications {
     max-width: 35%;
     font-size: 18px;
-    margin-top: 5%;
+    top: 50%;
     margin-left: 10%;
-    float: left;
 }
 
 .sideEffects {
@@ -62,8 +67,9 @@
 }
 
 .image {
-    width: 40%;
-    margin-top: 10%;
+    width: 450px;
+    margin-left: 10%;
+    margin-top: 5%;
     margin-bottom: 10%;
     height: 40%;
     float: left;

@@ -17,6 +17,11 @@
     transform: translate(-50%, -50%);
 }
 
+.registration{
+    margin-left: 50%;
+    margin-top: 3%;
+}
+
 .tab-elm {
     width: 100%;
     margin-top: 5px;

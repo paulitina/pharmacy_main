@@ -105,7 +105,7 @@
             if ($scope.password !== $scope.password2){
                 $scope.errorMessage = 'Пароли не совпадают';
             }else{
-                $scope.list = $http.post("api/pharmacy/user", $scope.user)
+                $http.post("api/pharmacy/user", $scope.user);
                 let link = $("#openLink");
                 link.href = "http://localhost:8080/login_page";
                 window.open(link.href);

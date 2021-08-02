@@ -83,7 +83,13 @@ xmlns:th="http://www.thymeLeaf.org">
                 password: $scope.user.password
             }
             console.log('dbjchd' + JSON.stringify(newUser));
-            $http.put("api/pharmacy/user/"+$scope.user.userName, JSON.stringify(newUser));
+            // $http.put("api/pharmacy/user/"+$scope.user.userName, JSON.stringify(newUser), application/json);
+            $http({
+                method: 'PUT',
+                url: "api/pharmacy/user/"+$scope.user.userName,
+                data: JSON.stringify(newUser),
+                headers: {'Content-Type': 'application/json'}
+            });
             $scope.showResetOfUserName = false;
             $scope.readUserInfo();
         }

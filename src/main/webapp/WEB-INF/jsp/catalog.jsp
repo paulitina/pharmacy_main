@@ -125,7 +125,7 @@
                 return;
             }
             let link = $("#openLink");
-            link.href = "http://localhost:8080/product_page.jsp?productId=" + $scope.productId;
+            link.href = "http://localhost:8080/product?productId=" + $scope.productId;
             window.open(link.href);
             console.log(link.href);
         };
