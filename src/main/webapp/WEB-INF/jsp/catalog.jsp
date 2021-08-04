@@ -56,28 +56,8 @@
     app.controller("myCatalogController", function ($scope, $http) {
 
         $scope.showMaxCount = false;
-
-        // document.querySelector('#elastic').onInput = function () {
-        //     let val = this.value;
-        //     let elasticItems = $scope.products;
-        //     console.log("dnjks" + $scope.products);
-        //     if (val != '') {
-        //         elasticItems.forEach(function (elem) {
-        //             if (elem.innerText.search(val) == -1) {
-        //                 elem.classList.add('hide');
-        //             } else {
-        //                 elem.classList.remove('hide');
-        //             }
-        //         });
-        //     } else {
-        //         elasticItems.forEach(function (elem) {
-        //             elem.classList.remove('hide');
-        //         })
-        //     }
-        // }
-
-
         $scope.products = [];
+        $scope.orderInCart = {};
 
         <%-- Получение списка товаров--%>
         $scope.readProductList = function () {
@@ -114,9 +94,7 @@
             if (!count) {
                 count = 1;
             }
-            $scope.orderInCart = [];
-
-            $scope.list = $http.get('api/pharmacy/order/cart')
+            $scope.list = $http.get("api/pharmacy/order/cart")
                 .then(
                     function (response) {
                         $scope.orderInCart = response.data;
@@ -130,7 +108,7 @@
             console.log("dfcedsc" + $scope.list);
             $scope.productsToBuy = {
                 productId: productId,
-                orderId: $scope.list.orderId,
+                orderId: $scope.orderInCart.quantity,
                 quantity: count
             }
             console.log($scope.productsToBuy);
