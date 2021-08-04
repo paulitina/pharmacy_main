@@ -8,6 +8,8 @@ import code.services.api.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -61,6 +63,21 @@ public class ProductServiceImpl implements ProductService {
         product.setImage(productDto.getImage());
         productDao.save(product);
         return product;
+    }
+
+    public List<ProductDto> findProducts(String text){
+        String textOfSearch = text.trim();
+        List<Product> productListAll = productDao.findAllProducts();
+        List<ProductDto> listWithProductsInSearch = new ArrayList<>();
+        for(Product i: productListAll){
+            String name = i.getName().trim();
+            if (name==textOfSearch){
+                listWithProductsInSearch.add(createProductDto(i));
+            }else if(textOfSearch==""){
+                listWithProductsInSearch.add(createProductDto(i));
+            }
+        }
+        return listWithProductsInSearch;
     }
 
     @Override

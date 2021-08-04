@@ -34,12 +34,12 @@ public class OrderController {
     }
 
     @PutMapping("/cart")
-    private ResponseEntity<Order> updateOrder(List<OrderProductDto> orderProductDtoList) {
+    private ResponseEntity<Order> updateOrder(@RequestBody List<OrderProductDto> orderProductDtoList) {
         return ResponseEntity.ok(orderService.updateOrderProductList(orderProductDtoList));
     }
 
     @PostMapping("/cart")
-    private void deleteProductInProductList(Long productId) {
+    private void deleteProductInProductList(@RequestBody Long productId) {
         orderService.deleteProductInProductList(productId);
     }
 
@@ -50,7 +50,7 @@ public class OrderController {
 //    }
 
     @PostMapping
-    private void placeOrder(String address) throws MyException {
+    private void placeOrder(@RequestBody String address) throws MyException {
         orderService.placeOrder(address);
     }
 }

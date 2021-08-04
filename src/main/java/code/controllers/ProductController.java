@@ -23,6 +23,11 @@ public class ProductController {
         return ResponseEntity.ok(productServiceImpl.getListOfProducts());
     }
 
+    @GetMapping("/search")
+    private ResponseEntity<List<ProductDto>> findProducts(@RequestBody String text) {
+        return ResponseEntity.ok(productServiceImpl.findProducts(text));
+    }
+
 //    @GetMapping
 //    public String getListOfProductsView(Model model) {
 //        model.addAttribute("listOfProducts", productServiceImpl.getListOfProducts());

@@ -20,7 +20,7 @@
 <div class="product-container">
     <table style="width: 100%" ng-show="showCart">
         <tr ng-repeat="item in orderInCart">
-            <td width="100px">{{item.productId}}</td>
+            <td width="100px"><input id="{{$index}}" value="{{item.productId}}"></td>
             <td>
                 <div class="number" data-step="1" data-min="1" data-max="100">
                     <input class="number-text" type="text" value="{{item.count ? item.count : 1}}">
@@ -31,12 +31,14 @@
                     </div>
                 </div>
             </td>
-            <td><button class="btn" ng-click="deleteFromCart()">Удалить из корзины</button></td>
+            <td>
+                <button class="btn" ng-click="deleteFromCart($index)">Удалить из корзины</button>
+            </td>
         </tr>
     </table>
-    <input class="address" id= "address" placeholder="Введите адрес" ng-show="showAddressLine">
+    <input class="address" id="address" placeholder="Введите адрес" ng-show="showAddressLine">
     <button class="btn" ng-click="placeOrder()" ng-show="showAddressLine">Оформить заказ</button>
-<%--    addToCartAndPlace(item.productId, item.count)--%>
+    <%--    addToCartAndPlace(item.productId, item.count)--%>
 </div>
 <script type="text/javascript">
     app.controller("myCartController", function ($scope, $http) {
@@ -45,9 +47,10 @@
         $scope.showCart = true;
         $scope.showEmpty = false;
         $scope.showAddressLine = true;
+        $scope.productIdForDelete = '';
 
         <%-- Получение товара в корзине--%>
-        $scope.getOrderInCart = function () {
+        $scope.getOrderInCartProductList = function () {
             $http.get("api/pharmacy/order/cart")
                 .then(
                     function (response) {
@@ -63,6 +66,15 @@
                         console.error(errResp);
                     }
                 );
+        }
+
+        $scope.deleteFromCart = ($index) => {
+            console.log($index);
+            $scope.productIdForDelete = document.getElementById($index).value;
+            console.log($scope.productIdForDelete);
+            $http.post("api/pharmacy/order/cart", $scope.productIdForDelete);
+            $scope.getOrderInCartProductList();
+            window.location.reload();
         }
 
         // $scope.addToCartAndPlace = (productId, count) => {
@@ -103,7 +115,7 @@
             $scope.address = document.getElementById('address').value;
             console.log($scope.address);
             $http.post("api/pharmacy/order", $scope.address);
-            $scope.getOrderInCart();
+            $scope.getOrderInCartProductList();
         }
 
         $scope.increaseNumber = (item) => {
@@ -125,7 +137,7 @@
 
         angular.element(document).ready(function () {
             console.log('page loading completed');
-            $scope.getOrderInCart();
+            $scope.getOrderInCartProductList();
         });
     });
 </script>

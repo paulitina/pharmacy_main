@@ -56,20 +56,20 @@ public class OrderServiceImpl implements OrderService {
         return orderDao.save(order);
     }
 
-    //Создаем новый элемент корзины
-    public void createCartProduct(Long productId) {
-        Long userId = userService.getIdOfAuthenticatedUser();
-        Order orderInCart;
-        List<Order> orders = orderDao.findOrdersByUserIdAndStatus(userId, OrderStatus.CART.getStatusType());
-        if (orders.isEmpty()) {
-            orderInCart = createEmptyCart(userId);
-        } else {
-            orderInCart = orders.get(0);
-        }
-        Integer quantity = 1;
-        OrderProduct orderProduct = new OrderProduct(orderInCart.getOrderId(), productId, quantity);
-        orderProductDao.save(orderProduct);
-    }
+//    //Создаем новый элемент корзины
+//    public void createCartProduct(Long productId) {
+//        Long userId = userService.getIdOfAuthenticatedUser();
+//        Order orderInCart;
+//        List<Order> orders = orderDao.findOrdersByUserIdAndStatus(userId, OrderStatus.CART.getStatusType());
+//        if (orders.isEmpty()) {
+//            orderInCart = createEmptyCart(userId);
+//        } else {
+//            orderInCart = orders.get(0);
+//        }
+//        Integer quantity = 1;
+//        OrderProduct orderProduct = new OrderProduct(orderInCart.getOrderId(), productId, quantity);
+//        orderProductDao.save(orderProduct);
+//    }
 
     // Удаляем товар из заказа
 //    @Transactional(propagation = Propagation.REQUIRES_NEW)
@@ -92,7 +92,13 @@ public class OrderServiceImpl implements OrderService {
             Integer quantity = i.getQuantity();
             Long productId = i.getProductId();
             OrderProduct orderProduct = orderProductDao.findById(new OrderProductPK(orderId, productId)).orElse(null);
-            orderProduct.setQuantity(quantity);
+            if (orderProduct == null){
+                orderProduct.setOrderId(orderId);
+                orderProduct.setProductId(productId);
+                orderProduct.setQuantity(quantity);
+            }else{
+                orderProduct.setQuantity(quantity);
+            }
             orderProductDao.save(orderProduct);
         }
 //        order.getOrderProductList();

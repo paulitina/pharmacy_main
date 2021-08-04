@@ -19,7 +19,7 @@ public interface OrderService {
     void deleteProductInProductList(Long productId) throws MyException;
 
     //Создаем новый продукт в заказе
-    void createCartProduct(Long productId) throws MyException;
+//    void createCartProduct(Long productId) throws MyException;
 
     //Получить ордерДТО() и список товаров()
     //Создать пустую корзину, если пустая есть, то получить данные и поменять все из ДТО в корзине в базе

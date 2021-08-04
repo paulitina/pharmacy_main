@@ -22,7 +22,7 @@
 //    public void configure(HttpSecurity http) throws Exception {
 //        http.csrf().disable();
 //        http.httpBasic();
-//        http.authorizeRequests().antMatchers("/api/**").authenticated();
+//        http.authorizeRequests().antMatchers("/api/**").permitAll();
 //        http.headers();
 //    }
 //

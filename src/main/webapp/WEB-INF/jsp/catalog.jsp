@@ -19,17 +19,17 @@
     <li><a href="logout">Log Out</a></li>
 </ul>
 
-<div>
+<form>
     <%--    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"--%>
     <%--          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">--%>
-    <input id="elastic" type="text" placeholder="Поиск по каталогу...">
+    <input id="textOfSearch" type="text" placeholder="Поиск по каталогу...">
     <%--    <button type="submit" class="search-button" ng-click="searchProduct(product.name)"></button>--%>
-</div>
+</form>
 <div class="product-container">
     <table style="width: 100%">
         <tr ng-repeat="product in products">
             <td width="100px">{{product.image ? product.image : "Нет изображения"}}</td>
-            <td class="elastic">
+            <td>
                 <button type="button" ng-click="openProductPage(product.productId)">{{product.name}}</button>
             </td>
             <td>{{product.price ? product.price : "Данные отсутствуют."}} руб.</td>
@@ -57,24 +57,24 @@
 
         $scope.showMaxCount = false;
 
-        document.querySelector('#elastic').onInput = function () {
-            let val = this.value;
-            let elasticItems = $scope.products;
-            console.log("dnjks" + $scope.products);
-            if (val != '') {
-                elasticItems.forEach(function (elem) {
-                    if (elem.innerText.search(val) == -1) {
-                        elem.classList.add('hide');
-                    } else {
-                        elem.classList.remove('hide');
-                    }
-                });
-            } else {
-                elasticItems.forEach(function (elem) {
-                    elem.classList.remove('hide');
-                })
-            }
-        }
+        // document.querySelector('#elastic').onInput = function () {
+        //     let val = this.value;
+        //     let elasticItems = $scope.products;
+        //     console.log("dnjks" + $scope.products);
+        //     if (val != '') {
+        //         elasticItems.forEach(function (elem) {
+        //             if (elem.innerText.search(val) == -1) {
+        //                 elem.classList.add('hide');
+        //             } else {
+        //                 elem.classList.remove('hide');
+        //             }
+        //         });
+        //     } else {
+        //         elasticItems.forEach(function (elem) {
+        //             elem.classList.remove('hide');
+        //         })
+        //     }
+        // }
 
 
         $scope.products = [];
@@ -95,10 +95,10 @@
 
 
         $scope.increaseNumber = (product) => {
-            if(product.count == product.quantity){
+            if (product.count == product.quantity) {
                 product.count = product.quantity;
                 $scope.showMaxCount = true;
-            }else {
+            } else {
                 product.count = product.count ? product.count + 1 : 2;
             }
             console.log(product.count);
@@ -163,18 +163,11 @@
             // $http.get("api/pharmacy/product/" + productId);
         }
 
-        $scope.textInSearch = "aaa";
 
-        $scope.readLine = (text) => {
-            $scope.textInSearch = text;
-        }
-
-        $scope.searchProduct = (textInSearch) => {
-            if ($scope.products.name === $scope.textInSearch) {
-                $scope.products = 'a';
-                console.log($scope.textInSearch);
-                console.log($scope.products);
-            }
+        document.getElementById("textOfSearch").oninput = function () {
+            $scope.textOfSearch = document.getElementById("textOfSearch").value;
+            console.log($scope.textOfSearch);
+            $http.get("api/pharmacy/product/search", $scope.textOfSearch);
         }
 
         angular.element(document).ready(function () {
