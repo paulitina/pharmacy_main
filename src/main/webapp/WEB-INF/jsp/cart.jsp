@@ -16,8 +16,8 @@
     <li><a href="account">My account</a></li>
     <li><a href="logout">Log Out</a></li>
 </ul>
+<p ng-show="showEmpty">У вас нет товаров в корзине</p>
 <div class="product-container">
-    <p ng-show="showEmpty">У вас нет товаров в корзине</p>
     <table style="width: 100%" ng-show="showCart">
         <tr ng-repeat="item in orderInCart">
             <td width="100px">{{item.productId}}</td>

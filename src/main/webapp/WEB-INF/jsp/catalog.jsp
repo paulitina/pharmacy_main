@@ -20,10 +20,10 @@
 </ul>
 
 <div>
-<%--    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"--%>
-<%--          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">--%>
+    <%--    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"--%>
+    <%--          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">--%>
     <input id="elastic" type="text" placeholder="Поиск по каталогу...">
-<%--    <button type="submit" class="search-button" ng-click="searchProduct(product.name)"></button>--%>
+    <%--    <button type="submit" class="search-button" ng-click="searchProduct(product.name)"></button>--%>
 </div>
 <div class="product-container">
     <table style="width: 100%">
@@ -37,6 +37,7 @@
                 <div class="number" data-step="1" data-min="1" data-max="100">
                     <input class="number-text" type="text" value="{{product.count ? product.count : 1}}">
                     <span class="number-unit">шт</span>
+                    <span ng-show="showMaxCount">Максимальное число товаров</span>
                     <div class="number-controls">
                         <div class="number-plus" ng-click="increaseNumber(product)">+</div>
                         <div class="number-minus" ng-click="decreaseNumber(product)">−</div>
@@ -54,10 +55,12 @@
 <script type="text/javascript">
     app.controller("myCatalogController", function ($scope, $http) {
 
+        $scope.showMaxCount = false;
+
         document.querySelector('#elastic').onInput = function () {
             let val = this.value;
             let elasticItems = $scope.products;
-            console.log("dnjks"+$scope.products);
+            console.log("dnjks" + $scope.products);
             if (val != '') {
                 elasticItems.forEach(function (elem) {
                     if (elem.innerText.search(val) == -1) {
@@ -66,8 +69,8 @@
                         elem.classList.remove('hide');
                     }
                 });
-            }else{
-                elasticItems.forEach(function (elem){
+            } else {
+                elasticItems.forEach(function (elem) {
                     elem.classList.remove('hide');
                 })
             }
@@ -92,12 +95,18 @@
 
 
         $scope.increaseNumber = (product) => {
-            product.count = product.count ? product.count + 1 : 2;
+            if(product.count == product.quantity){
+                product.count = product.quantity;
+                $scope.showMaxCount = true;
+            }else {
+                product.count = product.count ? product.count + 1 : 2;
+            }
             console.log(product.count);
         }
 
         $scope.decreaseNumber = (product) => {
             product.count = product.count && product.count > 1 ? product.count - 1 : 1;
+            $scope.showMaxCount = false;
             console.log(product.count);
         }
 
