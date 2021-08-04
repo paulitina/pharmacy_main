@@ -33,8 +33,8 @@ public class OrderController {
     }
 
     @PutMapping("/cart")
-    private ResponseEntity<Order> updateOrder(@RequestBody List<OrderProductDto> orderProductDtoList) {
-        return ResponseEntity.ok(orderService.updateOrderProductList(orderProductDtoList));
+    private ResponseEntity<Order> updateOrder(@RequestBody OrderProductDto orderProductDto) {
+        return ResponseEntity.ok(orderService.updateOrderProductList(orderProductDto));
     }
 
     @PostMapping("/cart")

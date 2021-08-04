@@ -84,7 +84,7 @@ public class OrderServiceImplTest {
     @Sql(value = {"/create-order-before.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     public void whenNewOrderProductDtoListUpdateCartWithProductListThenNewListOfOrderProductsInDBTest() {
         List<OrderProductDto> orderProductDtoList = createOrderProductDtoList(1L, 2L, 2, 1L, 1L, 1);
-        orderService.updateOrderProductList(orderProductDtoList);
+//        orderService.updateOrderProductList(orderProductDtoList);
         List<OrderProduct> actualOrderProductList = createOrderProductList(1L, 2L, 1L, 1L);
         List<OrderProduct> expectedOrderProductList = createExpectedOrderProductList4Two(1L, 2L,
                 1L, 1L, 2L, 2, 1L, 1L, 1);

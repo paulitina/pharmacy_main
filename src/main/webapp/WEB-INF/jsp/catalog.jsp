@@ -74,8 +74,7 @@
                 );
         }
 
-
-
+        <%-- Получение заказа в корзине для orderId--%>
         $scope.getOrderInCart = () => {
             $http.get("api/pharmacy/order/cart")
                 .then(
@@ -94,8 +93,8 @@
                 count = 1;
             }
             $scope.productsToBuy = {
-                productId: productId,
                 orderId: $scope.orderInCart.orderId,
+                productId: productId,
                 quantity: count
             }
             $http.put("api/pharmacy/order/cart", $scope.productsToBuy);

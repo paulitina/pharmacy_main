@@ -89,25 +89,24 @@ public class OrderServiceImpl implements OrderService {
 
     //Получаем из базы заказ в корзине, получаем новые данные о товарах, сохраняем в базе
     @Override
-    public Order updateOrderProductList(List<OrderProductDto> orderProductDtoList) {
+    public Order updateOrderProductList(OrderProductDto orderProductDto) {
         Order order = getOrderInCart();
         Long orderId = order.getOrderId();
-        for (OrderProductDto i : orderProductDtoList) {
-            Integer quantity = i.getQuantity();
-            Long productId = i.getProductId();
-            OrderProduct orderProduct = orderProductDao.findById(new OrderProductPK(orderId, productId)).orElse(null);
-            if (orderProduct == null){
-                orderProduct.setOrderId(orderId);
-                orderProduct.setProductId(productId);
-                orderProduct.setQuantity(quantity);
-            }else{
-                orderProduct.setQuantity(quantity);
-            }
+        Integer quantity = orderProductDto.getQuantity();
+        Long productId = orderProductDto.getProductId();
+        OrderProduct orderProduct = orderProductDao.findById(new OrderProductPK(orderId, productId)).orElse(null);
+        if (orderProduct == null) {
+            OrderProduct orderProductNew = new OrderProduct();
+            orderProductNew.setOrderId(orderId);
+            orderProductNew.setProductId(productId);
+            orderProductNew.setQuantity(quantity);
+            orderProductDao.save(orderProductNew);
+        } else {
+            orderProduct.setQuantity(quantity);
             orderProductDao.save(orderProduct);
         }
-//        order.getOrderProductList();
         return order;
-    }
+}
 
     //Получаем по айди юзера заказ со статусом корзина/создаем новый, если отсутствует
     public Order getOrderInCart() {
@@ -138,10 +137,10 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void placeOrder(String address) {
         Order order = getOrderInCart();
-        List <OrderProduct> orderProductList = order.getOrderProductList();
-        List <Product> productList = productDao.findAllProducts();
-        for (OrderProduct i: orderProductList){
-            for (Product j: productList) {
+        List<OrderProduct> orderProductList = order.getOrderProductList();
+        List<Product> productList = productDao.findAllProducts();
+        for (OrderProduct i : orderProductList) {
+            for (Product j : productList) {
                 Long productIdCart = i.getProductId();
                 Integer quantityCart = i.getQuantity();
                 Long productIdDB = j.getProductId();
@@ -150,8 +149,8 @@ public class OrderServiceImpl implements OrderService {
                 System.out.println(quantityCart);
                 System.out.println(productIdDB);
                 System.out.println(quantityInDB);
-                if(productIdCart.equals(productIdDB)){
-                    j.setQuantity(quantityInDB-quantityCart);
+                if (productIdCart.equals(productIdDB)) {
+                    j.setQuantity(quantityInDB - quantityCart);
                     System.out.println("quantury" + j.getQuantity());
 
                     productDao.save(j);

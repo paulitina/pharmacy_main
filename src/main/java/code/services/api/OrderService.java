@@ -23,7 +23,7 @@ public interface OrderService {
 
     //Получить ордерДТО() и список товаров()
     //Создать пустую корзину, если пустая есть, то получить данные и поменять все из ДТО в корзине в базе
-    Order updateOrderProductList(List<OrderProductDto> orderProductDtoList) throws MyException;
+    Order updateOrderProductList(OrderProductDto orderProductDto) throws MyException;
 
     //Получить заказ со статусом корзина
     OrderDto getUserOrderInCart() throws MyException;
