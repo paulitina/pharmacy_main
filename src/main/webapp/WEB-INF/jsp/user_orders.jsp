@@ -19,8 +19,9 @@
     <li><a href="logout">Log Out</a></li>
 </ul>
 
+<p ng-show="showEmpty">У вас нет подтвержденных заказов</p>
 <div class="user-container" ng-model="orders">
-    <table style="width: 100%">
+    <table style="width: 100%" ng-show="show">
         <tr>
             <th>Id заказа</th>
             <th>Статус</th>
@@ -32,7 +33,7 @@
             <td width="100px">{{order.orderId}}</td>
             <td>{{order.status}}</td>
             <td>{{order.address}}</td>
-            <td ng-model="productDtoList">{{productDtoList.productId}}</td>
+            <td ng-model="productDtoList">{{order.productDtoList}}</td>
             <td ng-model="productDtoList">{{productDtoList.quantity}}</td>
         </tr>
     </table>
@@ -42,7 +43,9 @@
     app.controller("myAccountController", function ($scope, $http) {
 
         $scope.orders = {};
-        $scope.productDtoList = {};
+        $scope.productDtoList = [];
+        $scope.show = true;
+        $scope.showEmpty = false;
 
         <%-- Получение списка товаров--%>
         $scope.getUserOrders = function () {
@@ -51,13 +54,17 @@
                     function (response) {
                         $scope.orders = response.data;
                         console.log($scope.orders);
-                        if ($scope.orders === null) {
-                            $scope.orders = 'У вас нет оформленных заказов';
+                        if ($scope.orders.length == 0) {
+                            $scope.show = false;
+                            $scope.showEmpty = true;
                         }
-                        $scope.productDtoList = {
-                            productId: $scope.orders.productDtoList,
-                            quantity: $scope.orders.productDtoList.quantity
-                        }
+                        console.log($scope.orders.productDtoList);
+                        // $scope.productDtoList = JSON.parse($scope.orders);
+                        console.log($scope.productDtoList);
+                        // $scope.productsInList = {
+                        //     productId: $scope.orders.productDtoList,
+                        //     // quantity: $scope.orders.productDtoList.quantity
+                        // }
                     },
                     function (errResp) {
                         console.error(errResp);

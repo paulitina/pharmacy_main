@@ -119,6 +119,12 @@ public class OrderServiceImpl implements OrderService {
         return createOrderDto(order);
     }
 
+    public List<OrderProduct> getListOfOrdersInCart() {
+        Order order = getOrderInCart();
+        List<OrderProduct> orderProductInCartList = order.getOrderProductList();
+        return orderProductInCartList;
+    }
+
     //Получаем из базы заказ в корзине, меняем статус на "размещен", устанавливаем адрес и пересохраняем
     @Override
     public void placeOrder(String address) {

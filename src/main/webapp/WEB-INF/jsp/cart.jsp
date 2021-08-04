@@ -19,8 +19,8 @@
 <div class="product-container">
     <table style="width: 100%" ng-show="showCart">
         <tr ng-repeat="item in orderInCart">
-            <td width="100px">{{item.address}}</td>
-<%--            <td>{{item.name}}</td>--%>
+            <td width="100px">{{item.productId}}</td>
+            <td>{{item.quantity}}</td>
             <td></td>
             <td>
                 <div class="number" data-step="1" data-min="1" data-max="100">
@@ -41,14 +41,14 @@
         $scope.orderInCart = [];
         $scope.showCart = true;
 
-            <%-- Получение товара в корзине--%>
+        <%-- Получение товара в корзине--%>
         $scope.getOrderInCart = function () {
             $http.get("api/pharmacy/order/cart")
                 .then(
                     function (response) {
                         $scope.orderInCart = response.data;
                         console.log($scope.orderInCart);
-                        if($scope.orderInCart === []){
+                        if ($scope.orderInCart === []) {
                             $scope.showCart = false;
                         }
                         console.log($scope.showCart);

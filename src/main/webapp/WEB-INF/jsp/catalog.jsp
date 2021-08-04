@@ -1,5 +1,3 @@
-<%@ page import="code.services.implementation.OrderServiceImpl" %>
-<%@ page import="org.springframework.beans.factory.annotation.Autowired" %>
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html ng-app="myApp" ng-controller="myCatalogController">
@@ -21,17 +19,17 @@
     <li><a href="logout">Log Out</a></li>
 </ul>
 
-<form>
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
-          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-    <input type="text" placeholder="Поиск по каталогу...">
-    <button type="submit" class="search-button" ng-click="searchProduct(product.name)"></button>
-</form>
+<div>
+<%--    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"--%>
+<%--          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">--%>
+    <input id="elastic" type="text" placeholder="Поиск по каталогу...">
+<%--    <button type="submit" class="search-button" ng-click="searchProduct(product.name)"></button>--%>
+</div>
 <div class="product-container">
     <table style="width: 100%">
         <tr ng-repeat="product in products">
             <td width="100px">{{product.image ? product.image : "Нет изображения"}}</td>
-            <td>
+            <td class="elastic">
                 <button type="button" ng-click="openProductPage(product.productId)">{{product.name}}</button>
             </td>
             <td>{{product.price ? product.price : "Данные отсутствуют."}} руб.</td>
@@ -55,6 +53,26 @@
 </div>
 <script type="text/javascript">
     app.controller("myCatalogController", function ($scope, $http) {
+
+        document.querySelector('#elastic').onInput = function () {
+            let val = this.value;
+            let elasticItems = $scope.products;
+            console.log("dnjks"+$scope.products);
+            if (val != '') {
+                elasticItems.forEach(function (elem) {
+                    if (elem.innerText.search(val) == -1) {
+                        elem.classList.add('hide');
+                    } else {
+                        elem.classList.remove('hide');
+                    }
+                });
+            }else{
+                elasticItems.forEach(function (elem){
+                    elem.classList.remove('hide');
+                })
+            }
+        }
+
 
         $scope.products = [];
 
@@ -93,14 +111,14 @@
                 .then(
                     function (response) {
                         $scope.orderInCart = response.data;
-                        console.log("dfcedsc"+$scope.orderInCart);
+                        console.log("dfcedsc" + $scope.orderInCart);
                     },
                     function (errResp) {
                         console.error(errResp);
                     }
                 );
             console.log('added to cart product ' + productId + ' at number of ' + count);
-            console.log("dfcedsc"+$scope.list);
+            console.log("dfcedsc" + $scope.list);
             $scope.productsToBuy = {
                 productId: productId,
                 orderId: $scope.list.orderId,

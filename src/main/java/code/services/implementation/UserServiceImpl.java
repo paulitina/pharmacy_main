@@ -95,7 +95,7 @@ public class UserServiceImpl implements UserService {
 
     //Обновляем с сайта данные о пользователе
     @Override
-    public User updateUserInfo(UserDto userDto) throws MyException {
+    public User updateUserInfo(UserDto userDto) {
         User user = userDao.findById(userDto.getUserId()).orElse(null);
         Long uId = userDto.getUserId();
         user.setUserName(userDto.getUserName());

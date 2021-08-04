@@ -51,6 +51,14 @@ input {
     cursor: pointer;
 }
 
+.elastic td{
+    transition: all ease 500ms;
+}
+
+.hide{
+    display: none;
+}
+
 .btn {
     text-decoration: none;
     font-family: sans-serif;
