@@ -23,7 +23,7 @@ public class OrderController {
 //        return ResponseEntity.ok(orderService.getUserOrderInCart());
 //    }
     @GetMapping("cart")
-    public ResponseEntity<List<OrderProduct>> getListOfOrdersInCart(){
+    public ResponseEntity<List<OrderProductDto>> getListOfOrdersInCart(){
         return ResponseEntity.ok(orderService.getListOfOrdersInCart());
     }
 

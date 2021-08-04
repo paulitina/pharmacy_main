@@ -17,21 +17,22 @@
     <li><a href="logout">Log Out</a></li>
 </ul>
 <div class="product-container">
+    <p ng-show="showEmpty">У вас нет товаров в корзине</p>
     <table style="width: 100%" ng-show="showCart">
         <tr ng-repeat="item in orderInCart">
             <td width="100px">{{item.productId}}</td>
-            <td>{{item.quantity}}</td>
-            <td></td>
+<%--            <td>{{item.quantity}}</td>--%>
             <td>
                 <div class="number" data-step="1" data-min="1" data-max="100">
-                    <input class="number-text" type="text" value="{{product.count ? product.count : 1}}">
+                    <input class="number-text" type="text" value="{{item.quantity ? item.quantity : 1}}">
                     <span class="number-unit">шт</span>
                     <div class="number-controls">
-                        <div class="number-plus" ng-click="increaseNumber(product)">+</div>
-                        <div class="number-minus" ng-click="decreaseNumber(product)">−</div>
+                        <div class="number-plus" ng-click="increaseNumber(item)">+</div>
+                        <div class="number-minus" ng-click="decreaseNumber(item)">−</div>
                     </div>
                 </div>
             </td>
+            <td><button class="deleteButton" ng-click="deleteFromCart()">Удалить из корзины</button></td>
         </tr>
     </table>
 </div>
@@ -40,6 +41,7 @@
 
         $scope.orderInCart = [];
         $scope.showCart = true;
+        $scope.showEmpty = false;
 
         <%-- Получение товара в корзине--%>
         $scope.getOrderInCart = function () {
@@ -48,10 +50,10 @@
                     function (response) {
                         $scope.orderInCart = response.data;
                         console.log($scope.orderInCart);
-                        if ($scope.orderInCart === []) {
+                        if ($scope.orderInCart.length == 0) {
                             $scope.showCart = false;
+                            $scope.showEmpty = true;
                         }
-                        console.log($scope.showCart);
                     },
                     function (errResp) {
                         console.error(errResp);
@@ -60,15 +62,15 @@
         }
 
 
-        $scope.increaseNumber = (product) => {
-            product.count = product.count ? product.count + 1 : 2;
-            console.log(product.count);
+        $scope.increaseNumber = (item) => {
+            item.quantity = item.quantity ? item.quantity + 1 : 2;
+            console.log(item.quantity);
         }
 
 
-        $scope.decreaseNumber = (product) => {
-            product.count = product.count && product.count > 1 ? product.count - 1 : 1;
-            console.log(product.count);
+        $scope.decreaseNumber = (item) => {
+            item.quantity = item.quantity && item.quantity > 1 ? item.quantity - 1 : 1;
+            console.log(item.quantity);
         }
 
 

@@ -119,10 +119,10 @@ public class OrderServiceImpl implements OrderService {
         return createOrderDto(order);
     }
 
-    public List<OrderProduct> getListOfOrdersInCart() {
-        Order order = getOrderInCart();
-        List<OrderProduct> orderProductInCartList = order.getOrderProductList();
-        return orderProductInCartList;
+    public List<OrderProductDto> getListOfOrdersInCart() {
+        OrderDto order = getUserOrderInCart();
+        return order.getProductDtoList();
+
     }
 
     //Получаем из базы заказ в корзине, меняем статус на "размещен", устанавливаем адрес и пересохраняем
