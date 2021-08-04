@@ -31,6 +31,7 @@
         <div class="number" data-step="1" data-min="1" data-max="100">
             <input class="number-text" type="text" value="{{product.count ? product.count : 1}}">
             <span class="number-unit">шт</span>
+            <span ng-show="showMaxCount">Максимальное число товаров</span>
             <div class="number-controls">
                 <div class="number-plus" ng-click="increaseNumber(product)">+</div>
                 <div class="number-minus" ng-click="decreaseNumber(product)">−</div>
@@ -66,7 +67,10 @@
             productId: <%= productId %>,
         };
 
-        $scope.recipeRus = 'jhbjhb';
+        $scope.recipeRus = '';
+        $scope.productsToBuy = {};
+        $scope.orderInCart = {};
+        $scope.showMaxCount = false;
 
         $scope.translatePrescribedIntoRussian = () => {
             if ($scope.product.prescribed == false) {
@@ -75,6 +79,22 @@
                 $scope.recipeRus = 'Да';
             }
         };
+
+
+        $scope.addToCart = (productId, count) => {
+            if (!count) {
+                count = 1;
+            }
+            $scope.productsToBuy = {
+                orderId: $scope.orderInCart.orderId,
+                productId: productId,
+                quantity: count
+            }
+            $http.put("api/pharmacy/order/cart", $scope.productsToBuy);
+            console.log('added to cart product ' + productId + ' at number of ' + count);
+            console.log($scope.productsToBuy);
+        }
+
 
         <%-- Получение списка товаров--%>
         $scope.readProductInfo = function () {
@@ -91,35 +111,42 @@
                 );
         }
 
+        <%-- Получение заказа в корзине для orderId--%>
+        $scope.getOrderInCart = () => {
+            $http.get("api/pharmacy/order/cart")
+                .then(
+                    function (response) {
+                        $scope.orderInCart = response.data;
+                        console.log($scope.orderInCart);
+                    },
+                    function (errResp) {
+                        console.error(errResp);
+                    }
+                );
+        }
+
 
         $scope.increaseNumber = (product) => {
-            product.count = product.count ? product.count + 1 : 2;
+            if (product.count == product.quantity) {
+                product.count = product.quantity;
+                $scope.showMaxCount = true;
+            } else {
+                product.count = product.count ? product.count + 1 : 2;
+            }
             console.log(product.count);
         }
 
         $scope.decreaseNumber = (product) => {
             product.count = product.count && product.count > 1 ? product.count - 1 : 1;
+            $scope.showMaxCount = false;
             console.log(product.count);
-        }
-
-
-        $scope.addToCart = (productId, count) => {
-            if (!count) {
-                count = 1;
-            }
-            console.log('added to cart product ' + productId + ' at number of ' + count);
-        }
-
-
-        $scope.updateCart = () => {
-            console.log('updating cart')
-            //....$http.post()
         }
 
         angular.element(document).ready(function () {
             console.log('page loading completed');
             $scope.readProductInfo();
             $scope.translatePrescribedIntoRussian();
+            $scope.getOrderInCart();
         });
 
     });

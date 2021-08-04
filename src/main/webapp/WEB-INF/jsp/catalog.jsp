@@ -26,8 +26,34 @@
     <%--    <button type="submit" class="search-button" ng-click="searchProduct(product.name)"></button>--%>
 </form>
 <div class="product-container">
-    <table style="width: 100%">
+    <table style="width: 100%" ng-show="showAll">
         <tr ng-repeat="product in products">
+            <td width="100px">{{product.image ? product.image : "Нет изображения"}}</td>
+            <td>
+                <button type="button" ng-click="openProductPage(product.productId)">{{product.name}}</button>
+            </td>
+            <td>{{product.price ? product.price : "Данные отсутствуют."}} руб.</td>
+            <td>
+                <div class="number" data-step="1" data-min="1" data-max="100">
+                    <input class="number-text" type="text" value="{{product.count ? product.count : 1}}">
+                    <span class="number-unit">шт</span>
+                    <span ng-show="showMaxCount">Максимальное число товаров</span>
+                    <div class="number-controls">
+                        <div class="number-plus" ng-click="increaseNumber(product)">+</div>
+                        <div class="number-minus" ng-click="decreaseNumber(product)">−</div>
+                    </div>
+                </div>
+            </td>
+            <td>
+                <button type="button" class="btn btn-default" ng-click="addToCart(product.productId, product.count)">
+                    Добавить в корзину
+                </button>
+            </td>
+        </tr>
+    </table>
+
+    <table style="width: 100%" ng-show="showSearch">
+        <tr ng-repeat="product in foundProducts">
             <td width="100px">{{product.image ? product.image : "Нет изображения"}}</td>
             <td>
                 <button type="button" ng-click="openProductPage(product.productId)">{{product.name}}</button>
@@ -59,6 +85,9 @@
         $scope.products = [];
         $scope.orderInCart = {};
         $scope.productsToBuy = [];
+        $scope.showAll = true;
+        $scope.showSearch = false;
+
 
         <%-- Получение списка товаров--%>
         $scope.readProductList = function () {
@@ -128,11 +157,42 @@
         //     // $http.get("api/pharmacy/product/" + productId);
         // }
 
+        // document.querySelector('#elastic').onInput = function () {
+        //     let val = this.value;
+        //     let elasticItems = $scope.products;
+        //     console.log("dnjks" + $scope.products);
+        //     if (val != '') {
+        //         elasticItems.forEach(function (elem) {
+        //             if (elem.innerText.search(val) == -1) {
+        //                 elem.classList.add('hide');
+        //             } else {
+        //                 elem.classList.remove('hide');
+        //             }
+        //         });
+        //     } else {
+        //         elasticItems.forEach(function (elem) {
+        //             elem.classList.remove('hide');
+        //         })
+        //     }
+        // }
+
+        $scope.foundProducts = [];
 
         document.getElementById("textOfSearch").oninput = function () {
             $scope.textOfSearch = document.getElementById("textOfSearch").value;
-            console.log($scope.textOfSearch);
-            $http.get("api/pharmacy/product/search", $scope.textOfSearch);
+            $http.get("api/pharmacy/product/search?text=" + $scope.textOfSearch)
+                .then(
+                    function (response) {
+                        $scope.foundProducts = response.data;
+                        if ($scope.foundProducts !== []) {
+                            $scope.showAll = false;
+                            $scope.showSearch = true;
+                        }
+                    },
+                    function (errResp) {
+                        console.error(errResp);
+                    }
+                );
         }
 
         $scope.increaseNumber = (product) => {

@@ -21,13 +21,15 @@
     <table style="width: 100%" ng-show="showCart">
         <tr ng-repeat="item in orderInCart">
             <td width="100px"><input id="{{$index}}" value="{{item.productId}}"></td>
+            <td><p>Вы добавили {{item.quantity}} товара</p></td>
             <td>
                 <div class="number" data-step="1" data-min="1" data-max="100">
                     <input class="number-text" type="text" value="{{item.count ? item.count : 1}}">
                     <span class="number-unit">шт</span>
+                    <span ng-show="showMaxCount">Максимальное число товаров</span>
                     <div class="number-controls">
-                        <div class="number-plus" ng-click="increaseNumber(item)">+</div>
-                        <div class="number-minus" ng-click="decreaseNumber(item)">−</div>
+                        <div class="number-plus" ng-click="increaseNumber(item, $index)">+</div>
+                        <div class="number-minus" ng-click="decreaseNumber(item, $index)">−</div>
                     </div>
                 </div>
             </td>
@@ -38,11 +40,11 @@
     </table>
     <input class="address" id="address" placeholder="Введите адрес" ng-show="showAddressLine">
     <button class="btn" ng-click="placeOrder()" ng-show="showAddressLine">Оформить заказ</button>
-    <%--    addToCartAndPlace(item.productId, item.count)--%>
 </div>
 <script type="text/javascript">
     app.controller("myCartController", function ($scope, $http) {
 
+        $scope.showMaxCount = false;
         $scope.orderInCart = [];
         $scope.showCart = true;
         $scope.showEmpty = false;
@@ -68,6 +70,20 @@
                 );
         }
 
+        <%-- Получение заказа в корзине для orderId--%>
+        $scope.getOrderInCart = () => {
+            $http.get("api/pharmacy/order/cart")
+                .then(
+                    function (response) {
+                        $scope.orderInCart4Id = response.data;
+                        console.log($scope.orderInCart4Id);
+                    },
+                    function (errResp) {
+                        console.error(errResp);
+                    }
+                );
+        }
+
         $scope.deleteFromCart = ($index) => {
             console.log($index);
             $scope.productIdForDelete = document.getElementById($index).value;
@@ -76,39 +92,21 @@
             $scope.getOrderInCartProductList();
             window.location.reload();
         }
-
-        // $scope.addToCartAndPlace = (productId, count) => {
-        //     if (!count) {
-        //         count = 1;
-        //     }
-        //     $scope.orderInCart = [];
         //
-        //     $scope.list = $http.get('api/pharmacy/order/cart')
-        //         .then(
-        //             function (response) {
-        //                 $scope.orderInCart = response.data;
-        //                 console.log("dfcedsc" + $scope.orderInCart);
-        //             },
-        //             function (errResp) {
-        //                 console.error(errResp);
-        //             }
-        //         );
-        //     console.log('added to cart product ' + productId + ' at number of ' + count);
-        //     console.log("dfcedsc" + $scope.list);
-        //     $scope.productsToBuy = {
-        //         productId: productId,
-        //         orderId: $scope.list.orderId,
-        //         quantity: count
-        //     }
-        //     console.log($scope.productsToBuy);
-        //     $scope.updateCart();
+        // $scope.place = () => {
+        //     // $scope.productIdForUpdate = document.getElementById($index).value;
+        //     // if (!count) {
+        //     //     count = 1;
+        //     // }
+        //     // $scope.productsToBuy = {
+        //     //     orderId: $scope.orderInCart4Id.orderId,
+        //     //     productId: $scope.productIdForUpdate,
+        //     //     quantity: count
+        //     // }
+        //     // $http.put("api/pharmacy/order/cart", $scope.productsToBuy);
+        //     // console.log('added to cart product ' + productId + ' at number of ' + count);
+        //     // console.log($scope.productsToBuy);
         //     $scope.placeOrder();
-        // }
-        //
-        //
-        // $scope.updateCart = () => {
-        //     console.log('updating cart');
-        //     $http.put("api/pharmacy/order/cart", $scope.productsToBuy);
         // }
 
         $scope.placeOrder = () => {
@@ -118,15 +116,44 @@
             $scope.getOrderInCartProductList();
         }
 
-        $scope.increaseNumber = (item) => {
-            item.count = item.count ? item.count + 1 : 2;
-            console.log(item.count);
+        $scope.increaseNumber = (product, $index) => {
+            if (product.count == product.quantity) {
+                product.count = product.quantity;
+                $scope.showMaxCount = true;
+            } else {
+                product.count = product.count ? product.count + 1 : 2;
+            }
+            console.log(product.count);
+
+            $scope.productIdForUpdate = document.getElementById($index).value;
+            // if (!product.count) {
+            //     product.count = 1;
+            // }
+            $scope.productsToBuy = {
+                orderId: $scope.orderInCart4Id.orderId,
+                productId: $scope.productIdForUpdate,
+                quantity: product.count
+            }
+            $http.put("api/pharmacy/order/cart", $scope.productsToBuy);
+            console.log('added to cart product ' + $scope.productsToBuy.productId + ' at number of ' + $scope.productsToBuy.quantity);
         }
 
+        $scope.decreaseNumber = (product, $index) => {
+            product.count = product.count && product.count > 1 ? product.count - 1 : 1;
+            $scope.showMaxCount = false;
+            console.log(product.count);
 
-        $scope.decreaseNumber = (item) => {
-            item.count = item.count && item.count > 1 ? item.count - 1 : 1;
-            console.log(item.count);
+            $scope.productIdForUpdate = document.getElementById($index).value;
+            // if (!product.count) {
+            //     product.count = 1;
+            // }
+            $scope.productsToBuy = {
+                orderId: $scope.orderInCart4Id.orderId,
+                productId: $scope.productIdForUpdate,
+                quantity: product.count
+            }
+            $http.put("api/pharmacy/order/cart", $scope.productsToBuy);
+            console.log('added to cart product ' + $scope.productsToBuy.productId + ' at number of ' + $scope.productsToBuy.quantity);
         }
 
 
@@ -138,6 +165,7 @@
         angular.element(document).ready(function () {
             console.log('page loading completed');
             $scope.getOrderInCartProductList();
+            $scope.getOrderInCart();
         });
     });
 </script>

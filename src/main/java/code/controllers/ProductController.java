@@ -24,7 +24,7 @@ public class ProductController {
     }
 
     @GetMapping("/search")
-    private ResponseEntity<List<ProductDto>> findProducts(@RequestBody String text) {
+    private ResponseEntity<List<ProductDto>> findProducts(String text) {
         return ResponseEntity.ok(productServiceImpl.findProducts(text));
     }
 
