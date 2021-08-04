@@ -5,9 +5,11 @@ import code.dto.OrderProductDto;
 import code.entities.Order;
 import code.entities.OrderProduct;
 import code.entities.OrderProductPK;
+import code.entities.Product;
 import code.enums.OrderStatus;
 import code.repositories.OrderDao;
 import code.repositories.OrderProductDao;
+import code.repositories.ProductDao;
 import code.services.api.OrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +24,8 @@ import java.util.stream.Collectors;
 @Slf4j
 public class OrderServiceImpl implements OrderService {
     private final OrderDao orderDao;
+
+    private final ProductDao productDao;
 
     private final OrderProductDao orderProductDao;
 
@@ -134,6 +138,26 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void placeOrder(String address) {
         Order order = getOrderInCart();
+        List <OrderProduct> orderProductList = order.getOrderProductList();
+        List <Product> productList = productDao.findAllProducts();
+        for (OrderProduct i: orderProductList){
+            for (Product j: productList) {
+                Long productIdCart = i.getProductId();
+                Integer quantityCart = i.getQuantity();
+                Long productIdDB = j.getProductId();
+                Integer quantityInDB = j.getQuantity();
+                System.out.println(productIdCart);
+                System.out.println(quantityCart);
+                System.out.println(productIdDB);
+                System.out.println(quantityInDB);
+                if(productIdCart.equals(productIdDB)){
+                    j.setQuantity(quantityInDB-quantityCart);
+                    System.out.println("quantury" + j.getQuantity());
+
+                    productDao.save(j);
+                }
+            }
+        }
         order.setStatus(OrderStatus.PLACED.getStatusType());
         order.setAddress(address);
         orderDao.save(order);

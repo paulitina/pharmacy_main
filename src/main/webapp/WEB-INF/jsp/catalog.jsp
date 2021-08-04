@@ -58,6 +58,7 @@
         $scope.showMaxCount = false;
         $scope.products = [];
         $scope.orderInCart = {};
+        $scope.productsToBuy = [];
 
         <%-- Получение списка товаров--%>
         $scope.readProductList = function () {
@@ -73,6 +74,67 @@
                 );
         }
 
+
+
+        $scope.getOrderInCart = () => {
+            $http.get("api/pharmacy/order/cart")
+                .then(
+                    function (response) {
+                        $scope.orderInCart = response.data;
+                        console.log($scope.orderInCart);
+                    },
+                    function (errResp) {
+                        console.error(errResp);
+                    }
+                );
+        }
+
+        $scope.addToCart = (productId, count) => {
+            if (!count) {
+                count = 1;
+            }
+            $scope.productsToBuy = {
+                productId: productId,
+                orderId: $scope.orderInCart.orderId,
+                quantity: count
+            }
+            $http.put("api/pharmacy/order/cart", $scope.productsToBuy);
+            console.log('added to cart product ' + productId + ' at number of ' + count);
+            console.log($scope.productsToBuy);
+        }
+
+
+        // $scope.updateCart = () => {
+        //     console.log('updating cart');
+        //     $http.put("api/pharmacy/order/cart", $scope.productsToBuy);
+        // }
+
+        $scope.productId = '';
+
+        $scope.openProductPage = function (productId) {
+            $scope.productId = productId;
+            console.log(productId);
+            if (!$scope.productId) {
+                return;
+            }
+            let link = $("#openLink");
+            link.href = "http://localhost:8080/product?productId=" + $scope.productId;
+            window.open(link.href);
+            console.log(link.href);
+        };
+
+
+        // $scope.getProductId = (productId) => {
+        //
+        //     // $http.get("api/pharmacy/product/" + productId);
+        // }
+
+
+        document.getElementById("textOfSearch").oninput = function () {
+            $scope.textOfSearch = document.getElementById("textOfSearch").value;
+            console.log($scope.textOfSearch);
+            $http.get("api/pharmacy/product/search", $scope.textOfSearch);
+        }
 
         $scope.increaseNumber = (product) => {
             if (product.count == product.quantity) {
@@ -90,67 +152,10 @@
             console.log(product.count);
         }
 
-        $scope.addToCart = (productId, count) => {
-            if (!count) {
-                count = 1;
-            }
-            $scope.list = $http.get("api/pharmacy/order/cart")
-                .then(
-                    function (response) {
-                        $scope.orderInCart = response.data;
-                        console.log("dfcedsc" + $scope.orderInCart);
-                    },
-                    function (errResp) {
-                        console.error(errResp);
-                    }
-                );
-            console.log('added to cart product ' + productId + ' at number of ' + count);
-            console.log("dfcedsc" + $scope.list);
-            $scope.productsToBuy = {
-                productId: productId,
-                orderId: $scope.orderInCart.quantity,
-                quantity: count
-            }
-            console.log($scope.productsToBuy);
-            $scope.updateCart();
-        }
-
-
-        $scope.updateCart = () => {
-            console.log('updating cart');
-            $http.put("api/pharmacy/order/cart", $scope.productsToBuy);
-        }
-
-        $scope.productId = '';
-
-        $scope.openProductPage = function (productId) {
-            $scope.productId = productId;
-            console.log(productId);
-            if (!$scope.productId) {
-                return;
-            }
-            let link = $("#openLink");
-            link.href = "http://localhost:8080/product?productId=" + $scope.productId;
-            window.open(link.href);
-            console.log(link.href);
-        };
-
-
-        $scope.getProductId = (productId) => {
-
-            // $http.get("api/pharmacy/product/" + productId);
-        }
-
-
-        document.getElementById("textOfSearch").oninput = function () {
-            $scope.textOfSearch = document.getElementById("textOfSearch").value;
-            console.log($scope.textOfSearch);
-            $http.get("api/pharmacy/product/search", $scope.textOfSearch);
-        }
-
         angular.element(document).ready(function () {
             console.log('page loading completed');
             $scope.readProductList();
+            $scope.getOrderInCart();
         });
     });
 </script>

@@ -51,7 +51,7 @@
 
         <%-- Получение товара в корзине--%>
         $scope.getOrderInCartProductList = function () {
-            $http.get("api/pharmacy/order/cart")
+            $http.get("api/pharmacy/order/cartProducts")
                 .then(
                     function (response) {
                         $scope.orderInCart = response.data;

@@ -4,7 +4,6 @@ import code.MyException;
 import code.dto.OrderDto;
 import code.dto.OrderProductDto;
 import code.entities.Order;
-import code.entities.OrderProduct;
 import code.services.implementation.OrderServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,13 +17,13 @@ import java.util.List;
 public class OrderController {
     private final OrderServiceImpl orderService;
 
-    //    @GetMapping("cart")
-//    private ResponseEntity<OrderDto> getUserOrderInCart() throws MyException {
-//        return ResponseEntity.ok(orderService.getUserOrderInCart());
-//    }
-
     @GetMapping("cart")
-    public ResponseEntity<List<OrderProductDto>> getListOfOrdersInCart(){
+    private ResponseEntity<OrderDto> getUserOrderInCart() throws MyException {
+        return ResponseEntity.ok(orderService.getUserOrderInCart());
+    }
+
+    @GetMapping("cartProducts")
+    public ResponseEntity<List<OrderProductDto>> getListOfOrdersInCart() {
         return ResponseEntity.ok(orderService.getListOfOrdersInCart());
     }
 
