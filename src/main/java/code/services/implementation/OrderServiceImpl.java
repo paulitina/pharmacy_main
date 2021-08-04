@@ -104,10 +104,10 @@ public class OrderServiceImpl implements OrderService {
         Order order;
         Long userId = userService.getIdOfAuthenticatedUser();
         List<Order> orders = orderDao.findOrdersByUserIdAndStatus(userId, OrderStatus.CART.getStatusType());
-        if (orders.size() == 1) {
-            order = orders.get(0);
-        } else {
+        if (orders.size() == 0) {
             order = createEmptyCart(userId);
+        } else {
+            order = orders.get(0);
         }
         return order;
     }
@@ -122,7 +122,6 @@ public class OrderServiceImpl implements OrderService {
     public List<OrderProductDto> getListOfOrdersInCart() {
         OrderDto order = getUserOrderInCart();
         return order.getProductDtoList();
-
     }
 
     //Получаем из базы заказ в корзине, меняем статус на "размещен", устанавливаем адрес и пересохраняем

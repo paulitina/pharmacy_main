@@ -36,15 +36,15 @@ public class UserController {
         return ResponseEntity.ok(userService.getAuthenticatedUserDto());
     }
 
-    @ExceptionHandler(MyException.class)
-    public ModelAndView handleError(HttpServletRequest req, MyException ex) {
-        log.error("Request: " + req.getRequestURL() + " raised " + ex);
-        ModelAndView mav = new ModelAndView();
-        mav.addObject("exception", ex);
-        mav.addObject("url", req.getRequestURL());
-        mav.setViewName("error");
-        return mav;
-    }
+//    @ExceptionHandler(MyException.class)
+//    public ModelAndView handleError(HttpServletRequest req, MyException ex) {
+//        log.error("Request: " + req.getRequestURL() + " raised " + ex);
+//        ModelAndView mav = new ModelAndView();
+//        mav.addObject("exception", ex);
+//        mav.addObject("url", req.getRequestURL());
+//        mav.setViewName("error");
+//        return mav;
+//    }
 //    @ExceptionHandler( value = {MyException.class})
 //    public String logErrors(MyException e) {
 //        return "error: " +e.getMessage();

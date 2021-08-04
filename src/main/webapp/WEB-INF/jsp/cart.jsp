@@ -21,10 +21,9 @@
     <table style="width: 100%" ng-show="showCart">
         <tr ng-repeat="item in orderInCart">
             <td width="100px">{{item.productId}}</td>
-<%--            <td>{{item.quantity}}</td>--%>
             <td>
                 <div class="number" data-step="1" data-min="1" data-max="100">
-                    <input class="number-text" type="text" value="{{item.quantity ? item.quantity : 1}}">
+                    <input class="number-text" type="text" value="{{item.count ? item.count : 1}}">
                     <span class="number-unit">шт</span>
                     <div class="number-controls">
                         <div class="number-plus" ng-click="increaseNumber(item)">+</div>
@@ -32,9 +31,12 @@
                     </div>
                 </div>
             </td>
-            <td><button class="deleteButton" ng-click="deleteFromCart()">Удалить из корзины</button></td>
+            <td><button class="btn" ng-click="deleteFromCart()">Удалить из корзины</button></td>
         </tr>
     </table>
+    <input class="address" id= "address" placeholder="Введите адрес" ng-show="showAddressLine">
+    <button class="btn" ng-click="placeOrder()" ng-show="showAddressLine">Оформить заказ</button>
+<%--    addToCartAndPlace(item.productId, item.count)--%>
 </div>
 <script type="text/javascript">
     app.controller("myCartController", function ($scope, $http) {
@@ -42,6 +44,7 @@
         $scope.orderInCart = [];
         $scope.showCart = true;
         $scope.showEmpty = false;
+        $scope.showAddressLine = true;
 
         <%-- Получение товара в корзине--%>
         $scope.getOrderInCart = function () {
@@ -53,6 +56,7 @@
                         if ($scope.orderInCart.length == 0) {
                             $scope.showCart = false;
                             $scope.showEmpty = true;
+                            $scope.showAddressLine = false;
                         }
                     },
                     function (errResp) {
@@ -61,16 +65,56 @@
                 );
         }
 
+        // $scope.addToCartAndPlace = (productId, count) => {
+        //     if (!count) {
+        //         count = 1;
+        //     }
+        //     $scope.orderInCart = [];
+        //
+        //     $scope.list = $http.get('api/pharmacy/order/cart')
+        //         .then(
+        //             function (response) {
+        //                 $scope.orderInCart = response.data;
+        //                 console.log("dfcedsc" + $scope.orderInCart);
+        //             },
+        //             function (errResp) {
+        //                 console.error(errResp);
+        //             }
+        //         );
+        //     console.log('added to cart product ' + productId + ' at number of ' + count);
+        //     console.log("dfcedsc" + $scope.list);
+        //     $scope.productsToBuy = {
+        //         productId: productId,
+        //         orderId: $scope.list.orderId,
+        //         quantity: count
+        //     }
+        //     console.log($scope.productsToBuy);
+        //     $scope.updateCart();
+        //     $scope.placeOrder();
+        // }
+        //
+        //
+        // $scope.updateCart = () => {
+        //     console.log('updating cart');
+        //     $http.put("api/pharmacy/order/cart", $scope.productsToBuy);
+        // }
+
+        $scope.placeOrder = () => {
+            $scope.address = document.getElementById('address').value;
+            console.log($scope.address);
+            $http.post("api/pharmacy/order", $scope.address);
+            $scope.getOrderInCart();
+        }
 
         $scope.increaseNumber = (item) => {
-            item.quantity = item.quantity ? item.quantity + 1 : 2;
-            console.log(item.quantity);
+            item.count = item.count ? item.count + 1 : 2;
+            console.log(item.count);
         }
 
 
         $scope.decreaseNumber = (item) => {
-            item.quantity = item.quantity && item.quantity > 1 ? item.quantity - 1 : 1;
-            console.log(item.quantity);
+            item.count = item.count && item.count > 1 ? item.count - 1 : 1;
+            console.log(item.count);
         }
 
 

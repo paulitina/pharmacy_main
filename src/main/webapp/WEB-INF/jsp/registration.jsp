@@ -1,4 +1,3 @@
-<%@ page import="code.controllers.UserController" %>
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
@@ -9,6 +8,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.js"></script>
     <link rel="stylesheet" href="resources/styles/account.css">
     <link rel="stylesheet" href="resources/styles/login.css">
+
     <title>Registration</title>
 </head>
 <body ng-cloak>
@@ -31,8 +31,6 @@
 						<s:message text="Имя пользователя"/>
 					</span>
                     <input id="userName" type="text" class="form-control" ng-model="userName">
-<%--                    <p>Type: <%= exception%></p>--%>
-                    <p ng-model="exception">Message: + {{error.message}}</p>
                 </div>
             </td>
         </tr>
@@ -90,7 +88,6 @@
         $scope.password = '';
         $scope.password2 = '';
         $scope.errorMessage = '';
-        $scope.exception = '';
 
 
         <%-- Регистрация пользователя--%>
@@ -108,13 +105,7 @@
             if ($scope.password !== $scope.password2){
                 $scope.errorMessage = 'Пароли не совпадают';
             }else{
-                $scope.list = $http.post("api/pharmacy/user", $scope.user);
-                <%
-        UserController userController = new UserController();
-
-//        String exception = pageContext.getException().getClass().toString();
-    %>
-                $scope.exception = <%=message%>;
+                $scope.list = $http.post("api/pharmacy/user", $scope.user)
                 let link = $("#openLink");
                 link.href = "http://localhost:8080/login_page";
                 window.open(link.href);

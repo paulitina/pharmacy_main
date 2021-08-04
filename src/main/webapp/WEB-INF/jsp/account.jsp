@@ -32,14 +32,15 @@ xmlns:th="http://www.thymeLeaf.org">
     <div class="middleAndBottom">
         <span class="emailHead">Ваш email:  </span>
         <span class="email">{{user.email}}</span>
-        <button type="button" class="btn" ng-click="changeEmail()">Сменить email</button>
-        <input id="email" type="text" ng-show="ShowResetOfEmail">
+        <button type="button" class="btn" ng-click="changeEmailClick()" ng-hide="showResetOfEmail">Сменить email</button>
+        <input id="newEmail" type="text" ng-show="showResetOfEmail">
+        <button type="button" class="btn" ng-show="showResetOfEmail" ng-click="changeEmail()">Сменить</button>
     </div>
     <div class="middleAndBottom">
-        <span class="passwordHead">Пароль засекречен в целях безопасности ваших данных:  </span>
-        <span class="password">{{user.password}}</span>
-        <button type="button" class="btn" ng-click="changePassword()">Сменить пароль</button>
-        <input id="newPassword" type="text" ng-show="ShowResetOfPassword">
+        <span class="passwordHead">Пароль засекречен в целях безопасности ваших данных.  </span>
+        <button type="button" class="btn" ng-click="changePasswordClick()" ng-hide="showResetOfPassword">Сменить пароль</button>
+        <input id="newPassword" type="text" ng-show="showResetOfPassword">
+        <button type="button" class="btn" ng-show="showResetOfPassword" ng-click="changePassword()">Сменить</button>
     </div>
     <button class="btn" ng-click="showOrders()">Посмотреть мои заказы</button>
 </div>
@@ -63,27 +64,25 @@ xmlns:th="http://www.thymeLeaf.org">
             $scope.showResetOfUserName = true;
         }
 
+        <%-- Показать окно для смены пользовательского имени--%>
+        $scope.changeEmailClick = function (){
+            $scope.showResetOfEmail = true;
+        }
+
+        <%-- Показать окно для смены пользовательского имени--%>
+        $scope.changePasswordClick = function (){
+            $scope.showResetOfPassword = true;
+        }
+
         <%-- Смена пользовательского имени--%>
         $scope.changeUserName = function (){
             $scope.userName = document.getElementById('newUserName').value;
             console.log($scope.userName);
-            $scope.list = $http.get("api/pharmacy/user")
-                .then(
-                    function (response) {
-                        $scope.user = response.data;
-                    },
-                    function (errResp) {
-                        console.error(errResp);
-                    }
-                );
             let newUser = {
                 userId: $scope.user.userId,
                 userName: $scope.userName,
-                email: $scope.user.email,
-                password: $scope.user.password
+                email: $scope.user.email
             }
-            console.log('dbjchd' + JSON.stringify(newUser));
-            // $http.put("api/pharmacy/user/"+$scope.user.userName, JSON.stringify(newUser), application/json);
             $http({
                 method: 'PUT',
                 url: "api/pharmacy/user/"+$scope.user.userName,
@@ -91,6 +90,46 @@ xmlns:th="http://www.thymeLeaf.org">
                 headers: {'Content-Type': 'application/json'}
             });
             $scope.showResetOfUserName = false;
+            $scope.readUserInfo();
+        }
+
+        <%-- Смена почты--%>
+        $scope.changeEmail = function (){
+            $scope.email = document.getElementById('newEmail').value;
+            console.log($scope.email);
+            let newUser = {
+                userId: $scope.user.userId,
+                userName: $scope.user.userName,
+                email: $scope.email,
+                password: $scope.user.password
+            }
+            $http({
+                method: 'PUT',
+                url: "api/pharmacy/user/"+$scope.user.userName,
+                data: JSON.stringify(newUser),
+                headers: {'Content-Type': 'application/json'}
+            });
+            $scope.showResetOfEmail = false;
+            $scope.readUserInfo();
+        }
+
+        <%-- Смена пароля--%>
+        $scope.changePassword = function (){
+            $scope.password = document.getElementById('newPassword').value;
+            console.log($scope.email);
+            let newUser = {
+                userId: $scope.user.userId,
+                userName: $scope.user.userName,
+                email: $scope.user.email,
+                password: $scope.password
+            }
+            $http({
+                method: 'PUT',
+                url: "api/pharmacy/user/"+$scope.user.userName,
+                data: JSON.stringify(newUser),
+                headers: {'Content-Type': 'application/json'}
+            });
+            $scope.showResetOfPassword = false;
             $scope.readUserInfo();
         }
 

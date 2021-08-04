@@ -43,6 +43,21 @@
     width: 58px;
     border-left: 1px solid white;
 }
+.btn {
+    text-decoration: none;
+    font-family: sans-serif;
+    color: #5757a0;
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: lavender;
+    border-bottom: 5px solid #5757a0;
+}
+
+table {
+    table-layout: fixed;
+    margin-top: 2%;
+    margin-left: 10%;
+}
 
 .number-minus, .number-plus {
     display: block;

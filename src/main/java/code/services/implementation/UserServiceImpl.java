@@ -27,7 +27,9 @@ public class UserServiceImpl implements UserService {
         userDto.setUserId(user.getUserId());
         userDto.setUserName(user.getUserName());
         userDto.setEmail(user.getEmail());
-        userDto.setPassword("************");
+//        if (userDto.getPassword() != null) {
+//            userDto.setPassword(user.);
+//        }
         return userDto;
     }
 
@@ -100,11 +102,13 @@ public class UserServiceImpl implements UserService {
         Long uId = userDto.getUserId();
         user.setUserName(userDto.getUserName());
         user.setEmail(userDto.getEmail());
-        String password = userDto.getPassword();
-        String passwordSalt = createPasswordSalt();
-        String passwordHash = createPasswordHash(password, passwordSalt);
-        user.setPasswordSalt(passwordSalt);
-        user.setPasswordHash(passwordHash);
+        if (userDto.getPassword() != null) {
+            String password = userDto.getPassword();
+            String passwordSalt = createPasswordSalt();
+            String passwordHash = createPasswordHash(password, passwordSalt);
+            user.setPasswordSalt(passwordSalt);
+            user.setPasswordHash(passwordHash);
+        }
         return userDao.save(user);
     }
 }
